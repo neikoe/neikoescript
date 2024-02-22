@@ -29,6 +29,10 @@ worldToJoin = {"ASMEI","DAW","QUCU","BLOCKMO","ALFAMARTS"}  -- list of world to 
 customTile = false                  -- Set true if custom breaking pos for pnb in world
 customX = 0                         -- Custom breaking pos x
 customY = 0                         -- Custom breaking pos y
+nei_delay_harvest = 100           -- harvesting delay in ms
+nei_delay_plant = 100             -- planting delay in ms
+nei_delay_punch = 200            -- punching delay in ms
+nei_delay_place = 190            -- placing delay in ms
 delayWarp = 10000            -- warping world delay in ms
 delayExecute = 2000         -- execute between bot delay
 delayReconnect = 180         -- in seconds
@@ -1033,7 +1037,7 @@ function harvest(world)
     if bot.level < freshBotLevel and freshBot then
         for _,tile in pairs(bot:getWorld():getTiles()) do
             reconnectHarvest(world,doorFarm)
-            if tile:canHarvest() and bot:isInWorld(world:upper()) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 and bot.level < 12 and getBot().status == BotStatus.online then
+            if tile:canHarvest() and bot:isInWorld(world:upper()) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 and bot.level < freshBotLevel and getBot().status == BotStatus.online then
                 bot:findPath(tile.x,tile.y)
                 if tiley ~= tile.y and indexBot <= maxBotEvents then
                     tiley = tile.y
@@ -1195,7 +1199,7 @@ end
 
 function clearBlocks()
     for _,tile in pairs(bot:getWorld():getTiles()) do
-        if getTile(tile.x,tile.y).fg == nei_itemid_block and bot.level >= 12 then
+        if getTile(tile.x,tile.y).fg == nei_itemid_block and bot.level >= freshBotLevel then
             bot:findPath(tile.x,tile.y)
             while getTile(tile.x,tile.y).fg == nei_itemid_block and bot.x == tile.x and bot.y == tile.y do
                 punch(0,0)
