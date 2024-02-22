@@ -2,67 +2,68 @@ bot = getBot()
 bot.legit_mode = true       -- bot animation (default:true)
 bot.move_interval = 200     -- min 75, max 1000 (default:150)
 bot.move_range = 1      -- min 1, max 8 (default:5)
-bot.collect_range = 3
-bot.auto_reconnect = true
-bot.reconnect_interval = 140
-bot.collect_interval = 500
 
 --// HIDDEN CONFIG
-nei_pnb_anotherworld = false  -- set true if want to different world pnb
-nei_list_pnb = "C:\\Users\\Administrator\\Desktop\\NEIKOE\\PNB.txt"  -- location file list pnb
-nei_webhook_event = 50
-nei_noplant_setting = false                       -- store all seed and dont plant any
-nei_detectfarm = true          -- auto detect farmable
-nei_itemid_seed = nei_itemid_block + 1         -- don't edit
-nei_rootfarm = false                -- set true if nei_rootfarm farming
-nei_maxlvlbot = 126        -- terminate script after level X
-nei_rotation_amount = 0          -- remove bot after X farm rotated ( 0 = unlimited )  
-nei_notake_gemsht = false   -- enables / disables ignoring gems when harvest.
-nei_detectfloat = true          -- detect floating nei_itemid_block after farm
-nei_botlvl_setting = true             -- enables / disables fresh CID only harvest (will auto off if bot level >= nei_botlvl_pnb)
-nei_botlvl_pnb = 12          -- minimum level for put and break
-nei_autochange_skin = true          -- set true if wanna change color skin bot
-nei_autobuy_cloth = true                 -- set true if buy and wear clothes
-nei_auto_editprofile = false          -- edit note profile every store pack
-nei_pnb_tutorial = false                -- set true if want pnb in tutorial
-nei_whitelist = "OWNER"            -- no ban whitelist name in world tutorial
-nei_rest_time = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23}        -- (only hours 0-23)
-nei_rest_duration = 5                        -- minutes
-nei_rest_disconnect_setting = true               -- if false will rest in EXIT
-nei_auto_cleanfire = false                            -- set true if want auto fire farm (need fire hose)
-nei_storage_firehose = "WORLD"                            -- storage to take fire hose
-nei_door_firehose = "ID"                               -- id door to enter world storage
-nei_worldlist_safety = {"ASMEI","DAW","QUCU","BLOCKMO","ALFAMARTS"}  -- list of world to join after finishing 1 world
-nei_customtile_pnb_setting = false                  -- Set true if custom breaking pos for pnb in world
-nei_customtile_x = 0                         -- Custom breaking pos x
-nei_customtile_y = 0                         -- Custom breaking pos y
-nei_delay_warp = 10000            -- warping world delay in ms
-nei_delay_execute = 2000         -- execute between bot delay
-nei_delay_reconnect = 180         -- in seconds
-nei_delayvariation_setting = true       -- variation delay for nei_delay_punch
-nei_delay_variation = 10    -- if nei_delay_punch 180 so variation will be 170-190
-nei_list_autochat = {'Its dangerous to go out at night these days','The new building in the city is gigantic.','A real news reporter must have integrity.',
+dontPlant = false                       -- store all seed and dont plant any
+autoDetect = true          -- auto detect farmable
+itmSeed = nei_itemid_block + 1         -- don't edit
+root = false                -- set true if root farming
+terminateBotAfterLevel = 126        -- terminate script after level X
+removeBotAfterRotation = 0          -- remove bot after X farm rotated ( 0 = unlimited )  
+ignoreGemsHarvest = false   -- enables / disables ignoring gems when harvest.
+detectFloat = true          -- detect floating nei_itemid_block after farm
+freshBot = true             -- enables / disables fresh CID only harvest (will auto off if bot level >= freshBotLevel)
+freshBotLevel = 12          -- minimum level for put and break
+changeColorSkin = true          -- set true if wanna change color skin bot
+buyCloth = true                 -- set true if buy and wear clothes
+editNoteProfile = false          -- edit note profile every store pack
+pnbInTutorial = false                -- set true if want pnb in tutorial
+whiteListOwner = "OWNER"            -- no ban whitelist name in world tutorial
+restTime = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23}        -- (only hours 0-23)
+restDuration = 5                        -- minutes
+disconnectWhenRest = true               -- if false will rest in EXIT
+autoCleanFire = false                            -- set true if want auto fire farm (need fire hose)
+storageFirehose = "WORLD"                            -- storage to take fire hose
+doorFirehose = "ID"                               -- id door to enter world storage
+worldToJoin = {"ASMEI","DAW","QUCU","BLOCKMO","ALFAMARTS"}  -- list of world to join after finishing 1 world
+customTile = false                  -- Set true if custom breaking pos for pnb in world
+customX = 0                         -- Custom breaking pos x
+customY = 0                         -- Custom breaking pos y
+nei_delay_harvest = 100           -- harvesting delay in ms
+nei_delay_plant = 100             -- planting delay in ms
+nei_delay_punch = 200            -- punching delay in ms
+nei_delay_place = 190            -- placing delay in ms
+delayWarp = 10000            -- warping world delay in ms
+delayExecute = 2000         -- execute between bot delay
+delayReconnect = 180         -- in seconds
+variationDelay = true       -- variation delay for nei_delay_punch
+breakVariationDelay = 10    -- if nei_delay_punch 180 so variation will be 170-190
+listChat = {'Its dangerous to go out at night these days','The new building in the city is gigantic.','A real news reporter must have integrity.',
 'Its fun to doodle on the blackboard.','My uncles best friend will do the eulogy.','The new hotels location is sublime.',
 'Teamwork makes dream work.','We bought a lot of marshmallows to roast tonight at camp.','I want to go for a picnic by myself.',
 'Can you please ring my phone? I cant seem to find it.'}
-nei_list_autoemot = {
+emoteChat = {
     "/troll","/lol","/smile","/cry","/mad","/wave","/dance","/dab",
-    "/love","/kiss","/sleep","/yes","/no","/wink","/cheer","/sad","/fp"}
-
+    "/love","/kiss","/sleep","/yes","/no","/wink","/cheer","/sad","/fp"
+}
 for i, botz in pairs(getBots()) do
     if botz.name:upper() == bot.name:upper() then
         indexBot = i
     end
     indexLast = i
 end
+bot.collect_range = 3
+bot.auto_reconnect = true
+bot.reconnect_interval = 140
+bot.collect_interval = 500
 
 world = ""
 doorFarm = ""
 worldPNB = ""
 worldBreak = ""
 doorBreak = ""
-neikoee = ""
-neikoees = ""
+cray = ""
+crays = ""
 profit = 0
 profitSeed = 0
 totalFarm = 0
@@ -156,7 +157,7 @@ function read(fileneikoescript)
             table.insert(lines, line)
         end
         file:close()
-        neikoee = lines[1]
+        cray = lines[1]
         data = split(lines[1], ':')
         if tablelength(data) == 2 then
             neikoe1 = data[1]
@@ -168,7 +169,7 @@ function read(fileneikoescript)
             for _, line in ipairs(lines) do
                 file:write(line .. "\n")
             end
-            file:write(neikoee)
+            file:write(cray)
             file:close()
         end
     end
@@ -215,7 +216,6 @@ function secondON(seconds)
 		return hours .. ":" .. mins .. ":" .. secs
 	end
 end
-
 
 function waktuWorld()
     strWaktu = ""
@@ -308,7 +308,7 @@ function botEvents(info)
     file:close()
 end
 
-function nei_autobuy_clothes()
+function buyClothes()
     currentClothes = {}
     for _,inventory in pairs(bot:getInventory():getItems()) do
         if getInfo(inventory.id).clothing_type ~= 0 then
@@ -374,7 +374,7 @@ function warp(world,id)
             bot:sendPacket(3,"action|join_request\nname|"..world:upper().."\ninvitedWorld|0")
         end
         listenEvents(5)
-        sleep(nei_delay_warp)
+        sleep(delayWarp)
         if cok == 5 then
             botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." Server got lagging! hard warp world and bot will disconnect for a while! ")
             sleep(100)
@@ -435,8 +435,8 @@ function detect()
     for _,tile in pairs(store) do
         if tile.count > count and tile.fg % 2 ~= 0 then
             count = tile.count
-            nei_itemid_seed = tile.fg
-            nei_itemid_block = nei_itemid_seed - 1
+            itmSeed = tile.fg
+            nei_itemid_block = itmSeed - 1
             print(bot.name.." Detected Farmable : "..getInfo(nei_itemid_block).name)
         end
     end
@@ -484,13 +484,13 @@ function packInfo(link,id,desc)
 end
 
 function reconnect(world,id,x,y)
-    if bot.level >= nei_maxlvlbot then
+    if bot.level >= terminateBotAfterLevel then
         bot:stopScript()
     end
     if nei_auto_rest then
         currentRest = false
         local timeNow = os.date("*t")
-        for _,i in pairs(nei_rest_time) do
+        for _,i in pairs(restTime) do
             if i == timeNow.hour and timeNow.min == 0 then
                 currentRest = true
             end
@@ -498,14 +498,14 @@ function reconnect(world,id,x,y)
         if currentRest then
             botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") Bot will rest for 5 minutes! ")
             sleep(100)
-            if nei_rest_disconnect_setting then
+            if disconnectWhenRest then
                 bot.auto_reconnect = false
                 bot:disconnect()
-                sleep(60000 * nei_rest_duration)
+                sleep(60000 * restDuration)
                 bot.auto_reconnect = true
             else
                 goExit()
-                sleep(60000 * nei_rest_duration)
+                sleep(60000 * restDuration)
                 if bot.status == BotStatus.online then
                     bot:disconnect()
                     sleep(1000)
@@ -528,7 +528,7 @@ function reconnect(world,id,x,y)
         end
         while bot:getWorld().name ~= world:upper() do
             bot:sendPacket(3,"action|join_request\nname|"..world:upper().."\ninvitedWorld|0")
-            sleep(nei_delay_warp)
+            sleep(delayWarp)
         end
         if id ~= "" and getTile(bot.x,bot.y).fg == 6 then
             bot:sendPacket(3,"action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0")
@@ -558,7 +558,7 @@ function reconnectHarvest(world,id)
         end
         while not bot:isInWorld(world:upper()) do
             bot:sendPacket(3,"action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0")
-            sleep(nei_delay_warp)
+            sleep(delayWarp)
         end
         if id ~= "" and getTile(bot.x,bot.y).fg == 6 then
             bot:sendPacket(3,"action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0")
@@ -583,28 +583,28 @@ function storeSeed(world)
     sleep(100)
     warp(storageSeed,nei_door_seed)
     sleep(100)
-    ba = bot:getInventory():findItem(nei_itemid_seed)
+    ba = bot:getInventory():findItem(itmSeed)
     for _,tile in pairs(bot:getWorld():getTiles()) do
         if tile.fg == nei_tile_seed or tile.bg == nei_tile_seed then
             if tileDrop(tile.x,tile.y,100) then
                 bot:findPath(tile.x - 1,tile.y)
                 bot:setDirection(false)
                 sleep(100)
-                if bot:getInventory():findItem(nei_itemid_seed) > 100 then
-                    bot:sendPacket(2,"action|drop\n|itemID|"..nei_itemid_seed)
+                if bot:getInventory():findItem(itmSeed) > 100 then
+                    bot:sendPacket(2,"action|drop\n|itemID|"..itmSeed)
                     sleep(500)
-                    bot:sendPacket(2,"action|dialog_return\ndialog_name|drop_item\nitemID|"..nei_itemid_seed.."|\ncount|100")
+                    bot:sendPacket(2,"action|dialog_return\ndialog_name|drop_item\nitemID|"..itmSeed.."|\ncount|100")
                     sleep(500)
                     reconnect(storageSeed,nei_door_seed,tile.x - 1,tile.y)
                 end
-                if bot:getInventory():findItem(nei_itemid_seed) <= 100 then
+                if bot:getInventory():findItem(itmSeed) <= 100 then
                     break
                 end
             end
         end
     end
     sleep(100)
-    ba = ba - bot:getInventory():findItem(nei_itemid_seed)
+    ba = ba - bot:getInventory():findItem(itmSeed)
     profitSeed = profitSeed + ba
     sleep(100)
     packInfo(nei_webhook_link,nei_webhook_id,infoPack())
@@ -660,12 +660,12 @@ function pnbTutorial()
             ex = bot.x
             ye = bot.y
             bot.auto_collect = true
-            while bot:getInventory():findItem(nei_itemid_block) > nei_breakrow and bot:getInventory():findItem(nei_itemid_seed) <= 190 and bot:getWorld().name == worldPNB:upper() do
+            while bot:getInventory():findItem(nei_itemid_block) > nei_breakrow and bot:getInventory():findItem(itmSeed) <= 190 and bot:getWorld().name == worldPNB:upper() do
                 while bot.x ~= ex and bot.y ~= ye do
                     findPath(ex,ye)
                 end
                 for i,player in pairs(bot:getWorld():getPlayers()) do
-                    if player.netid ~= getLocal().netid and player.name:upper() ~= nei_whitelist:upper() then
+                    if player.netid ~= getLocal().netid and player.name:upper() ~= whiteListOwner:upper() then
                         bot:say("/ban " .. player.name)
                         sleep(1000)
                     end
@@ -683,8 +683,8 @@ function pnbTutorial()
                     for _,i in pairs(tileBreak) do
                         if getTile(ex - 1,ye + i).fg ~= 0 or getTile(ex - 1,ye + i).bg ~= 0 then
                             punch(-1,i)
-                            if nei_delayvariation_setting then
-                                sleep(math.random(nei_delay_punch - nei_delay_variation,nei_delay_punch + nei_delay_variation))
+                            if variationDelay then
+                                sleep(math.random(nei_delay_punch - breakVariationDelay,nei_delay_punch + breakVariationDelay))
                             else
                                 sleep(nei_delay_punch)
                             end
@@ -710,7 +710,7 @@ function pnbOtherWorld()
             ex = bot.x
             ye = bot.y
             bot.auto_collect = true
-            while bot:getInventory():findItem(nei_itemid_block) > nei_breakrow and bot:getInventory():findItem(nei_itemid_seed) <= 190 and bot.x == ex and bot.y == ye and bot:getWorld().name == worldBreak:upper() do
+            while bot:getInventory():findItem(nei_itemid_block) > nei_breakrow and bot:getInventory():findItem(itmSeed) <= 190 and bot.x == ex and bot.y == ye and bot:getWorld().name == worldBreak:upper() do
                 while tilePlace(ex,ye) do
                     for _,i in pairs(tileBreak) do
                         if getTile(ex - 1,ye + i).fg == 0 and getTile(ex - 1,ye + i).bg == 0 then
@@ -724,8 +724,8 @@ function pnbOtherWorld()
                     for _,i in pairs(tileBreak) do
                         if getTile(ex - 1,ye + i).fg ~= 0 or getTile(ex - 1,ye + i).bg ~= 0 then
                             punch(-1,i)
-                            if nei_delayvariation_setting then
-                                sleep(math.random(nei_delay_punch - nei_delay_variation,nei_delay_punch + nei_delay_variation))
+                            if variationDelay then
+                                sleep(math.random(nei_delay_punch - breakVariationDelay,nei_delay_punch + breakVariationDelay))
                             else
                                 sleep(nei_delay_punch)
                             end
@@ -741,10 +741,10 @@ end
 function pnb(world)
     if bot:isInWorld() then
         if nei_autochat_setting then
-            chatBot = nei_list_autochat[math.random(1,#nei_list_autochat)]
+            chatBot = listChat[math.random(1,#listChat)]
             bot:say(chatBot)
             sleep(1000)
-            chatBot = nei_list_autoemot[math.random(1,#nei_list_autoemot)]
+            chatBot = emoteChat[math.random(1,#emoteChat)]
             bot:say(chatBot)
             sleep(1000)
         end
@@ -752,18 +752,18 @@ function pnb(world)
             bot:wear(98)
             sleep(100)
         end
-        if nei_autochange_skin then
+        if changeColorSkin then
             bot:setSkin(math.random(1,8))
             sleep(100)
         end
     end
-    if nei_pnb_tutorial then
+    if pnbInTutorial then
         pnbTutorial()
     elseif nei_pnb_anotherworld then
         pnbOtherWorld()
     else
         if bot:getInventory():findItem(nei_itemid_block) >= nei_breakrow and bot:getWorld().name == world:upper() then
-            if not nei_customtile_pnb_setting then
+            if not customTile then
                 ex = 1
                 ye = bot.y
                 if ye > 40 then
@@ -771,19 +771,19 @@ function pnb(world)
                 elseif ye < 11 then
                     ye = ye + 10
                 end
-                if getTile(ex,ye).fg ~= 0 and getTile(ex,ye).fg ~= nei_itemid_seed then
+                if getTile(ex,ye).fg ~= 0 and getTile(ex,ye).fg ~= itmSeed then
                     ye = ye - 1
                 end
             else
-                ex = nei_customtile_x
-                ye = nei_customtile_y
+                ex = customX
+                ye = customY
             end
             sleep(100)
             bot:findPath(ex,ye)
             sleep(100)
             bot.ignore_gems = false
             bot.auto_collect = true
-            while bot:getInventory():findItem(nei_itemid_block) > nei_breakrow and bot:getInventory():findItem(nei_itemid_seed) <= 190 and bot.x == ex and bot.y == ye do
+            while bot:getInventory():findItem(nei_itemid_block) > nei_breakrow and bot:getInventory():findItem(itmSeed) <= 190 and bot.x == ex and bot.y == ye do
                 while tilePlace(ex,ye) do
                     for _,i in pairs(tileBreak) do
                         if getTile(ex - 1,ye + i).fg == 0 and getTile(ex - 1,ye + i).bg == 0 then
@@ -797,8 +797,8 @@ function pnb(world)
                     for _,i in pairs(tileBreak) do
                         if getTile(ex - 1,ye + i).fg ~= 0 or getTile(ex - 1,ye + i).bg ~= 0 then
                             punch(-1,i)
-                            if nei_delayvariation_setting then
-                                sleep(math.random(nei_delay_punch - nei_delay_variation,nei_delay_punch + nei_delay_variation))
+                            if variationDelay then
+                                sleep(math.random(nei_delay_punch - breakVariationDelay,nei_delay_punch + breakVariationDelay))
                             else
                                 sleep(nei_delay_punch)
                             end
@@ -812,16 +812,16 @@ function pnb(world)
     sleep(100)
     clear()
     sleep(100)
-    if nei_notake_gemsht then
+    if ignoreGemsHarvest then
         bot.ignore_gems = true
     end
     sleep(100)
-    if nei_autobuy_cloth and bot.gem_count >= 1500 then
+    if buyCloth and bot.gem_count >= 1500 then
         while bot:getInventory().slotcount < 36 do
             bot:buy("upgrade_backpack")
             sleep(200)
         end
-        nei_autobuy_clothes()
+        buyClothes()
     end
     if bot.gem_count > nei_store_setbuy then
         buyPack(world)
@@ -829,7 +829,7 @@ function pnb(world)
     end
     warp(world,doorFarm)
     sleep(100)
-    if not nei_noplant_setting then
+    if not dontPlant then
         plant(world)
     end
     sleep(100)
@@ -860,7 +860,7 @@ function buyPack(world)
         end
     end
     sleep(100)
-    if nei_auto_editprofile then
+    if editNoteProfile then
         netid = getLocal().netid
         bot:sendPacket(2,"action|wrench\n|netid|"..netid)
         sleep(1000)
@@ -923,11 +923,11 @@ end
 
 function plant(world)
     for _,tile in pairs(bot:getWorld():getTiles()) do
-        if getTile(tile.x,tile.y).fg == 0 and isPlantable(getTile(tile.x,tile.y)) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 and bot:getInventory():findItem(nei_itemid_seed) > 0 and bot:getWorld().name == world:upper() then
+        if getTile(tile.x,tile.y).fg == 0 and isPlantable(getTile(tile.x,tile.y)) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 and bot:getInventory():findItem(itmSeed) > 0 and bot:getWorld().name == world:upper() then
             bot:findPath(tile.x,tile.y)
             for _, i in pairs(mode3Tile) do
-                while getTile(tile.x + i,tile.y).fg == 0 and isPlantable(getTile(tile.x + i,tile.y)) and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot:getInventory():findItem(nei_itemid_seed) > 0 and bot.x == tile.x and bot.y == tile.y and bot:getWorld().name == world:upper() do
-                    place(nei_itemid_seed,i,0)
+                while getTile(tile.x + i,tile.y).fg == 0 and isPlantable(getTile(tile.x + i,tile.y)) and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot:getInventory():findItem(itmSeed) > 0 and bot.x == tile.x and bot.y == tile.y and bot:getWorld().name == world:upper() do
+                    place(itmSeed,i,0)
                     sleep(nei_delay_plant)
                     reconnect(world,doorFarm,tile.x,tile.y - 1)
                 end
@@ -975,7 +975,7 @@ end
 function takeFirehose()
     bot.auto_collect = false
     sleep(100)
-    warp(nei_storage_firehose,nei_door_firehose)
+    warp(storageFirehose,doorFirehose)
     sleep(100)
     while bot:getInventory():findItem(3066) == 0 do
         for _,obj in pairs(bot:getWorld():getObjects()) do
@@ -1009,14 +1009,14 @@ end
 function take(world)
     warp(storageSeed,nei_door_seed)
     sleep(100)
-    while bot:getInventory():findItem(nei_itemid_seed) == 0 do
+    while bot:getInventory():findItem(itmSeed) == 0 do
         for _,obj in pairs(bot:getWorld():getObjects()) do
-            if obj.id == nei_itemid_seed then
+            if obj.id == itmSeed then
                 bot:findPath(round(obj.x / 32),math.floor(obj.y / 32))
                 sleep(100)
                 bot:collect(3)
                 sleep(100)
-                if bot:getInventory():findItem(nei_itemid_seed) > 0 then
+                if bot:getInventory():findItem(itmSeed) > 0 then
                     break
                 end
             end
@@ -1031,10 +1031,10 @@ end
 function harvest(world)
     tiley = 0
     tree[world] = 0
-    if nei_notake_gemsht then
+    if ignoreGemsHarvest then
         bot.ignore_gems = true
     end
-    if bot.level < nei_botlvl_pnb and nei_botlvl_setting then
+    if bot.level < freshBotLevel and freshBot then
         for _,tile in pairs(bot:getWorld():getTiles()) do
             reconnectHarvest(world,doorFarm)
             if tile:canHarvest() and bot:isInWorld(world:upper()) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 and bot.level < 12 and getBot().status == BotStatus.online then
@@ -1045,16 +1045,16 @@ function harvest(world)
                     botEvents("Currently in row "..math.ceil(tiley/2).."/27")
                 end
                 for _, i in pairs(mode3Tile) do
-                    if getTile(tile.x + i,tile.y).fg == nei_itemid_seed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 then
+                    if getTile(tile.x + i,tile.y).fg == itmSeed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 then
                         tree[world] = tree[world] + 1
-                        while getTile(tile.x + i,tile.y).fg == nei_itemid_seed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot.x == tile.x and bot.y == tile.y do
+                        while getTile(tile.x + i,tile.y).fg == itmSeed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot.x == tile.x and bot.y == tile.y do
                             punch(i,0)
                             sleep(nei_delay_harvest)
                             reconnect(world,doorFarm,tile.x,tile.y)
                         end
                     end
                 end
-                if nei_rootfarm then
+                if root then
                     for _, i in pairs(mode3Tile) do
                         while getTile(tile.x + i, tile.y + 1).fg == (nei_itemid_block + 4) and bot.x == tile.x and bot.y == tile.y do
                             punch(i, 1)
@@ -1065,13 +1065,13 @@ function harvest(world)
                 end
                 bot:collect(3)
             end
-            if bot.level >= nei_botlvl_pnb then
+            if bot.level >= freshBotLevel then
                 break
             end
         end
     end
-    if bot.level >= nei_botlvl_pnb or not nei_botlvl_setting then
-        if nei_noplant_setting then
+    if bot.level >= freshBotLevel or not freshBot then
+        if dontPlant then
             for _,tile in pairs(bot:getWorld():getTiles()) do
                 reconnectHarvest(world,doorFarm)
                 if tile:canHarvest() and bot:isInWorld(world:upper()) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 then
@@ -1082,16 +1082,16 @@ function harvest(world)
                         botEvents("Currently in row "..math.ceil(tiley/2).."/27")
                     end
                     for _, i in pairs(mode3Tile) do
-                        if getTile(tile.x + i,tile.y).fg == nei_itemid_seed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot:getWorld().name == world:upper() then
+                        if getTile(tile.x + i,tile.y).fg == itmSeed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot:getWorld().name == world:upper() then
                             tree[world] = tree[world] + 1
-                            while getTile(tile.x + i,tile.y).fg == nei_itemid_seed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot.x == tile.x and bot.y == tile.y and bot:getWorld().name == world:upper() do
+                            while getTile(tile.x + i,tile.y).fg == itmSeed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot.x == tile.x and bot.y == tile.y and bot:getWorld().name == world:upper() do
                                 punch(i,0)
                                 sleep(nei_delay_harvest)
                                 reconnect(world,doorFarm,tile.x,tile.y)
                             end
                         end
                     end
-                    if nei_rootfarm then
+                    if root then
                         for _, i in pairs(mode3Tile) do
                             while getTile(tile.x + i, tile.y + 1).fg == (nei_itemid_block + 4) and bot.x == tile.x and bot.y == tile.y do
                                 punch(i, 1)
@@ -1105,7 +1105,7 @@ function harvest(world)
                 if findItem(nei_itemid_block) >= 190 and bot:getWorld().name == world:upper() then
                     pnb(world)
                     sleep(100)
-                    if findItem(nei_itemid_seed) > 190 then
+                    if findItem(itmSeed) > 190 then
                         storeSeed(world)
                         sleep(100)
                     end
@@ -1122,16 +1122,16 @@ function harvest(world)
                         botEvents("Currently in row "..math.ceil(tiley/2).."/27")
                     end
                     for _, i in pairs(mode3Tile) do
-                        if getTile(tile.x + i,tile.y).fg == nei_itemid_seed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot:getWorld().name == world:upper() then
+                        if getTile(tile.x + i,tile.y).fg == itmSeed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot:getWorld().name == world:upper() then
                             tree[world] = tree[world] + 1
-                            while getTile(tile.x + i,tile.y).fg == nei_itemid_seed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot.x == tile.x and bot.y == tile.y and bot:getWorld().name == world:upper() do
+                            while getTile(tile.x + i,tile.y).fg == itmSeed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot.x == tile.x and bot.y == tile.y and bot:getWorld().name == world:upper() do
                                 punch(i,0)
                                 sleep(nei_delay_harvest)
                                 reconnect(world,doorFarm,tile.x,tile.y)
                             end
                         end
                     end
-                    if nei_rootfarm then
+                    if root then
                         for _, i in pairs(mode3Tile) do
                             while getTile(tile.x + i, tile.y + 1).fg == (nei_itemid_block + 4) and bot.x == tile.x and bot.y == tile.y do
                                 punch(i, 1)
@@ -1141,8 +1141,8 @@ function harvest(world)
                         end
                     end
                     for _, i in pairs(mode3Tile) do
-                        while getTile(tile.x + i,tile.y).fg == 0 and isPlantable(getTile(tile.x + i,tile.y)) and findItem(nei_itemid_seed) > 0 and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot.x == tile.x and bot.y == tile.y and bot:getWorld().name == world:upper() do
-                            place(nei_itemid_seed,i,0)
+                        while getTile(tile.x + i,tile.y).fg == 0 and isPlantable(getTile(tile.x + i,tile.y)) and findItem(itmSeed) > 0 and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot.x == tile.x and bot.y == tile.y and bot:getWorld().name == world:upper() do
+                            place(itmSeed,i,0)
                             sleep(nei_delay_plant)
                             reconnect(world,doorFarm,tile.x,tile.y)
                         end
@@ -1152,14 +1152,14 @@ function harvest(world)
                 if bot:getInventory():findItem(nei_itemid_block) >= 190 then
                     pnb(world)
                     sleep(100)
-                    if bot:getInventory():findItem(nei_itemid_seed) > 150 then
+                    if bot:getInventory():findItem(itmSeed) > 150 then
                         storeSeed(world)
                         sleep(100)
                     end
                 end
             end
         end
-        if nei_detectfloat then
+        if detectFloat then
             for _,obj in pairs(bot:getWorld():getObjects()) do
                 if obj.id == nei_itemid_block then
                     bot:findPath(round(obj.x / 32),math.floor(obj.y / 32))
@@ -1170,7 +1170,7 @@ function harvest(world)
                 if bot:getInventory():findItem(nei_itemid_block) >= 190 then
                     pnb(world)
                     sleep(100)
-                    if bot:getInventory():findItem(nei_itemid_seed) > 150 then
+                    if bot:getInventory():findItem(itmSeed) > 150 then
                         storeSeed(world)
                         sleep(100)
                     end
@@ -1180,14 +1180,14 @@ function harvest(world)
     end
     if nei_fill_plant then
         for _,tile in pairs(bot:getWorld():getTiles()) do
-            if bot:getInventory():findItem(nei_itemid_seed) == 0 then
+            if bot:getInventory():findItem(itmSeed) == 0 then
                 take(world)
                 sleep(100)
             end
             if (tile.fg == 0 and tile.y ~= 0 and isPlantable(tile)) and bot:isInWorld(world:upper()) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 then
                 for _, i in pairs(mode3Tile) do
-                    while getTile(tile.x + i,tile.y).fg == 0 and isPlantable(getTile(tile.x + i,tile.y)) and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot:getInventory():findItem(nei_itemid_seed) > 0 and bot.x == tile.x and bot.y == tile.y and bot:getWorld().name == world:upper() do
-                        place(nei_itemid_seed,i,0)
+                    while getTile(tile.x + i,tile.y).fg == 0 and isPlantable(getTile(tile.x + i,tile.y)) and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot:getInventory():findItem(itmSeed) > 0 and bot.x == tile.x and bot.y == tile.y and bot:getWorld().name == world:upper() do
+                        place(itmSeed,i,0)
                         sleep(nei_delay_plant)
                         reconnect(world,doorFarm,tile.x,tile.y)
                     end
@@ -1211,7 +1211,7 @@ function clearBlocks()
 end
 
 function join()
-    for _,wurld in pairs(nei_worldlist_safety) do
+    for _,wurld in pairs(worldToJoin) do
         while bot:getWorld().name:upper() ~= wurld:upper() do
             if bot.status == BotStatus.online and bot:getPing() == 0 then
                 bot:disconnect()
@@ -1224,7 +1224,7 @@ function join()
                 end
             end
             bot:sendPacket(3,"action|join_request\nname|"..wurld:upper().."\ninvitedWorld|0")
-            sleep(nei_delay_warp)
+            sleep(delayWarp)
         end
     end
 end
@@ -1239,13 +1239,13 @@ function checkFire(world)
         if tile:hasFlag(4096) then
             fired = true
         end
-        if tile.fg == nei_itemid_seed then
+        if tile.fg == itmSeed then
             totalTree = readyTree + unreadyTree
             if tile:canHarvest() then
                 readyTree = readyTree + 1
             end
         end
-        if tile.fg == nei_itemid_seed then
+        if tile.fg == itmSeed then
             totalTree = readyTree + unreadyTree
             if not tile:canHarvest() then
                 unreadyTree = unreadyTree + 1
@@ -1319,7 +1319,7 @@ if response and message then
             end
 
             for i = indexBot, 1, -1 do
-                    sleep(nei_delay_execute)
+                    sleep(delayExecute)
             end
 
             while bot.status ~= BotStatus.online do
@@ -1335,7 +1335,7 @@ if response and message then
                 sleep(100)
             end
 
-            if nei_pnb_tutorial then
+            if pnbInTutorial then
                 checkTutorial()
                 sleep(100)
             end
@@ -1356,7 +1356,7 @@ if response and message then
                 totalFarm = totalFarm + 1
                 if not nuked then
                     checkFire(world)
-                    if not fired or nei_auto_cleanfire then
+                    if not fired or autoCleanFire then
                         tt = os.time()
                         sleep(100)
                         if toxicwst then
@@ -1390,7 +1390,7 @@ if response and message then
                             end
                         end
                         sleep(100)
-                        if nei_detectfarm then
+                        if autoDetect then
                             detect()
                         end
                         sleep(100)
@@ -1424,8 +1424,8 @@ if response and message then
                         join()
                     end
                 end
-                if nei_rotation_amount ~= 0 then
-                    if totalFarm >= nei_rotation_amount then
+                if removeBotAfterRotation ~= 0 then
+                    if totalFarm >= removeBotAfterRotation then
                         removeBot()
                         bot:stopScript()
                     end
