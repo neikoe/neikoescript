@@ -216,6 +216,15 @@ function secondON(seconds)
 	end
 end
 
+
+function waktuWorld()
+    strWaktu = ""
+    for _,worldzz in pairs(nei_farmlistBot) do
+        strWaktu = strWaktu.."\n||"..worldzz:upper().."|| ("..(waktu[worldzz] or "?").." | "..(tree[worldzz] or "?").." | "..(fossilz[worldzz] or "?").." )"
+    end
+    return strWaktu
+end
+
 function round(n)
     return n % 1 > 0.5 and math.ceil(n) or math.floor(n)
 end
