@@ -3,7 +3,9 @@ bot.legit_mode = true       -- bot animation (default:true)
 bot.move_interval = 200     -- min 75, max 1000 (default:150)
 bot.move_range = 1      -- min 1, max 8 (default:5)
 
---// HIDDEN CONFIG
+-- FARM SETTINGS
+nei_list_pnb = "C:\\Users\\Administrator\\Desktop\\NEIKOE\\PNB.txt"  -- location file list pnb
+nei_pnb_anotherworld = false  -- set true if want to different world pnb
 dontPlant = false                       -- store all seed and dont plant any
 autoDetect = true          -- auto detect farmable
 itmSeed = nei_itemid_block + 1         -- don't edit
@@ -19,29 +21,32 @@ buyCloth = true                 -- set true if buy and wear clothes
 editNoteProfile = false          -- edit note profile every store pack
 pnbInTutorial = false                -- set true if want pnb in tutorial
 whiteListOwner = "OWNER"            -- no ban whitelist name in world tutorial
+-- REST MODE
+restBot = true                          -- (set true / false for resting bot)
 restTime = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23}        -- (only hours 0-23)
 restDuration = 5                        -- minutes
 disconnectWhenRest = true               -- if false will rest in EXIT
+-- WORLD
 autoCleanFire = false                            -- set true if want auto fire farm (need fire hose)
 storageFirehose = "WORLD"                            -- storage to take fire hose
 doorFirehose = "ID"                               -- id door to enter world storage
 worldToJoin = {"ASMEI","DAW","QUCU","BLOCKMO","ALFAMARTS"}  -- list of world to join after finishing 1 world
+-- PUT AND BREAK SETTINGS
 customTile = false                  -- Set true if custom breaking pos for pnb in world
 customX = 0                         -- Custom breaking pos x
 customY = 0                         -- Custom breaking pos y
-nei_delay_harvest = 100           -- harvesting delay in ms
-nei_delay_plant = 100             -- planting delay in ms
-nei_delay_punch = 200            -- punching delay in ms
-nei_delay_place = 190            -- placing delay in ms
+-- DELAY SETTINGS
 delayWarp = 10000            -- warping world delay in ms
 delayExecute = 2000         -- execute between bot delay
 delayReconnect = 180         -- in seconds
 variationDelay = true       -- variation delay for nei_delay_punch
 breakVariationDelay = 10    -- if nei_delay_punch 180 so variation will be 170-190
+
 listChat = {'Its dangerous to go out at night these days','The new building in the city is gigantic.','A real news reporter must have integrity.',
 'Its fun to doodle on the blackboard.','My uncles best friend will do the eulogy.','The new hotels location is sublime.',
 'Teamwork makes dream work.','We bought a lot of marshmallows to roast tonight at camp.','I want to go for a picnic by myself.',
 'Can you please ring my phone? I cant seem to find it.'}
+
 emoteChat = {
     "/troll","/lol","/smile","/cry","/mad","/wave","/dance","/dab",
     "/love","/kiss","/sleep","/yes","/no","/wink","/cheer","/sad","/fp"
@@ -487,7 +492,7 @@ function reconnect(world,id,x,y)
     if bot.level >= terminateBotAfterLevel then
         bot:stopScript()
     end
-    if nei_auto_rest then
+    if restBot then
         currentRest = false
         local timeNow = os.date("*t")
         for _,i in pairs(restTime) do
@@ -1037,7 +1042,7 @@ function harvest(world)
     if bot.level < freshBotLevel and freshBot then
         for _,tile in pairs(bot:getWorld():getTiles()) do
             reconnectHarvest(world,doorFarm)
-            if tile:canHarvest() and bot:isInWorld(world:upper()) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 and bot.level < freshBotLevel and getBot().status == BotStatus.online then
+            if tile:canHarvest() and bot:isInWorld(world:upper()) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 and bot.level < 12 and getBot().status == BotStatus.online then
                 bot:findPath(tile.x,tile.y)
                 if tiley ~= tile.y and indexBot <= maxBotEvents then
                     tiley = tile.y
@@ -1199,7 +1204,7 @@ end
 
 function clearBlocks()
     for _,tile in pairs(bot:getWorld():getTiles()) do
-        if getTile(tile.x,tile.y).fg == nei_itemid_block and bot.level >= freshBotLevel then
+        if getTile(tile.x,tile.y).fg == nei_itemid_block and bot.level >= 12 then
             bot:findPath(tile.x,tile.y)
             while getTile(tile.x,tile.y).fg == nei_itemid_block and bot.x == tile.x and bot.y == tile.y do
                 punch(0,0)
