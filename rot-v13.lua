@@ -4,6 +4,7 @@ bot.move_interval = 200     -- min 75, max 1000 (default:150)
 bot.move_range = 1      -- min 1, max 8 (default:5)
 
 -- FARM SETTINGS
+maxBotEvents = 50                      
 nei_list_pnb = "C:\\Users\\Administrator\\Desktop\\NEIKOE\\PNB.txt"  -- location file list pnb
 nei_pnb_anotherworld = false  -- set true if want to different world pnb
 dontPlant = false                       -- store all seed and dont plant any
