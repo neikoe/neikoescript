@@ -365,7 +365,7 @@ function warp(world,id)
         listenEvents(5)
         sleep(delayWarp)
         if cok == 5 then
-            botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." Server got lagging! hard warp world and bot will disconnect for a while! ")
+            botInfo(nei_webhook_link,"<a:neyelow:1211255159531900968> "..bot.name.." Server got lagging! hard warp world and bot will disconnect for a while! ")
             sleep(100)
             while bot.status == BotStatus.online do
                 bot:disconnect()
@@ -485,7 +485,7 @@ function reconnect(world,id,x,y)
             end
         end
         if currentRest then
-            botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") Bot will rest for 5 minutes! ")
+            botInfo(nei_webhook_link,"<a:neyelow:1211255159531900968> "..bot.name.." ("..bot.level..") Bot will rest for 5 minutes! ")
             sleep(100)
             if disconnectWhenRest then
                 bot.auto_reconnect = false
@@ -503,11 +503,11 @@ function reconnect(world,id,x,y)
         end
     end
     if bot.status ~= BotStatus.online or bot:getPing() == 0 then
-        botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") Disconnected! ")
+        botInfo(nei_webhook_link,"<a:neoffline:1205764554454474783> "..bot.name.." ("..bot.level..") Disconnected! ")
         while bot.status ~= BotStatus.online or bot:getPing() == 0 do
             sleep(1000)
             if bot.status == BotStatus.account_banned then
-                botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") has been Banned!")
+                botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..bot.level..") has been Banned!")
                 stopScript()
             end
         end
@@ -527,17 +527,17 @@ function reconnect(world,id,x,y)
             bot:findPath(x,y)
             sleep(100)
         end
-        botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..")".." is Connected! ")
+        botInfo(nei_webhook_link,"<a:neonline:1205764467351363604> "..bot.name.." ("..bot.level..")".." is Connected! ")
     end
 end
 
 function reconnectHarvest(world,id)
     if bot.status ~= BotStatus.online or bot:getPing() == 0 then
-        botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") Disconnected! ")
+        botInfo(nei_webhook_link,"<a:neoffline:1205764554454474783> "..bot.name.." ("..bot.level..") Disconnected! ")
         while bot.status ~= BotStatus.online or bot:getPing() == 0 do
             sleep(1000)
             if bot.status == BotStatus.account_banned then
-                botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") has been Banned!")
+                botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..bot.level..") has been Banned!")
                 stopScript()
             end
         end
@@ -553,7 +553,7 @@ function reconnectHarvest(world,id)
             bot:sendPacket(3,"action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0")
             sleep(1000)
         end
-        botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..")".." is Connected! ")
+        botInfo(nei_webhook_link,"<a:neonline:1205764467351363604> "..bot.name.." ("..bot.level..")".." is Connected! ")
     end
 end
 
