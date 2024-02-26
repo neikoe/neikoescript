@@ -297,7 +297,6 @@ function WebhookCheck(desc1, desc2)
 end
 
 function checker()
-    bot = getBot()
     off = 0
     onl = 0
     ttl = 0
