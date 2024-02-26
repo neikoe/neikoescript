@@ -3,13 +3,6 @@ bot.legit_mode = true       -- bot animation (default:true)
 bot.move_interval = 200     -- min 75, max 1000 (default:150)
 bot.move_range = nei_botmove_speed
 
-webhook = {
-    {
-        msg = "1196814801804984340",
-        url = "https://discord.com/api/webhooks/1196814801804984340/KBl0wRFFx6Ek9rzO2VdPA0EU1-DbkX2U5I75klt4uzK98-7u-ROqJNn-wDdPOONRPICS",
-    },
-}
-
 --// HIDDEN CONFIG
 maxBotEvents = 50                      
 autoDetect = true          -- auto detect farmable
@@ -56,13 +49,11 @@ for i, botz in pairs(getBots()) do
     end
     indexLast = i
 end
-
 bot.collect_range = 3
 bot.auto_reconnect = true
 bot.reconnect_interval = 140
 bot.collect_interval = 500
 
-botTime = os.time()
 world = ""
 doorFarm = ""
 worldPNB = ""
@@ -95,15 +86,6 @@ storagePack = nei_storage_pack[math.ceil(indexBot / dividerSPack)]
 
 dividerSPick = math.ceil(indexLast / #nei_storage_pickexe)
 worldPickaxe = nei_storage_pickexe[math.ceil(indexBot / dividerSPick)]
-
-function getIndex()
-    for index,bot in pairs(getBots()) do
-        if bot.name:upper() == bots.name:upper() then
-            return index
-        end
-    end
-    return 0 
-end
 
 for i = math.floor(nei_breakrow/2),1,-1 do
     i = i * -1
@@ -219,33 +201,6 @@ local GetBot = function(bot)
 return status_Naming[status] or "offline"
 end
 
-function getStatus(user_client)
-    local status = {
-        [BotStatus['offline']] = 'offline',
-        [BotStatus['online']] = 'online',
-        [BotStatus['account_banned']] = 'banned',
-        [BotStatus['location_banned']] = 'banned ip',
-        [BotStatus['server_overload']] = 'overload',
-        [BotStatus['too_many_login']] = 'many login',
-        [BotStatus['maintenance']] = 'maintenance',
-        [BotStatus['version_update']] = 'version update',
-        [BotStatus['server_busy']] = 'server busy',
-        [BotStatus['error_connecting']] = 'ercon',
-        [BotStatus['logon_fail']] = 'login fail',
-        [BotStatus['http_block']] = 'http block',
-        [BotStatus['wrong_password']] = 'wrong password',
-        [BotStatus['advanced_account_protection']] = 'aap',
-        [BotStatus['bad_name_length']] = 'bad name',
-        [BotStatus['invalid_account']] = 'invalid',
-        [BotStatus['guest_limit']] = 'guest limit',
-        [BotStatus['changing_subserver']] = 'change subserver',
-        [BotStatus['captcha_requested']] = 'captcha',
-        [BotStatus['mod_entered']] = 'mod join',
-        [BotStatus['high_load']] = 'high load',
-    }
-    return status[user_client['status']]
-end
-
 function secondON(seconds)
 	local seconds = tonumber(seconds)
 	
@@ -296,121 +251,50 @@ function tileDrop(x,y,num)
     return false
 end
 
-function getData()
-    local data = {online = 0,offline = 0,gems = 0,bot = #getBots()}
-    for _,client in pairs(getBots()) do
-        if getStatus(client) == 'online' then data.online = data.online + 1 else data.offline = data.offline + 1 end
-        data.gems = data.gems + client.gem_count
-    end
-    return data
+function botInfo(webhookinfo,status)
+    local text = [[
+        $webHookUrl = "]]..webhookinfo..[["
+        $payload = @{
+            content = "]]..status..[["
+        }
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Post -ContentType 'application/json'
+    ]]
+    local file = io.popen("powershell -command -", "w")
+    file:write(text)
+    file:close()
 end
 
-function changeString(str,max) -- changing string length
-    local nama_ 
-    local max_len = (max or 5)
-    local str_length = string.len(str)
-    if str_length > max_len then
-        nama_ = string.sub(str, 1, max_len)
-    elseif str_length < max_len then
-        nama_ = str .. string.rep('X', max_len - str_length)
-    end
-    return ( nama_ or str )
-end
-
-function infoBot(status)
-    local client_count = #getBots()
-    local clients_per_group = 48
-    local client_hook = {}
-    local webhook_new = {}
-    local c_time = os.time() - botTime
-    
-    for i = 1, client_count, clients_per_group do
-        local group = {}
-        for j = i, i + clients_per_group - 1 do
-            if j <= client_count then table.insert(group, getBots()[j].name:upper()) end
-        end
-        table.insert(client_hook, group)
-    end
-    
-    for i, entry in ipairs(webhook) do
-        local new_entry = { url = entry.url,msg = entry.msg,bot = {} }
-        if client_hook[i] then
-            new_entry.bot = client_hook[i]
-        end
-        table.insert(webhook_new, new_entry)
-    end
-
-    for _,entry in ipairs(webhook_new) do
-        if entry.url ~= '' and #entry.bot > 0 then
-            local wh = Webhook.new(entry.url)
-            local total_bot = #entry.bot
-            local mads_url = 'https://cdn.discordapp.com/avatars/855439177793011732/ec15a3d1278219583c2acbdf7babea79.png?size=1024'
-            local mads_date = 'MADS Script | Date : ' .. os.date("!%a, %b/%d/%Y at %I:%M %p", os.time() + 28800)
-            local mads_title = "**MADS | PnB Gacor**"
-            local mads_color = math.random(000000,9999999)
-            local mads_description = '**Task: [' .. getIndex() .. '] ' .. status .. '**\n' .. 
-                '**Gems: ' .. getData().gems .. '**\n' .. 
-                '**Online: ' .. getData().online .. '**\n' .. 
-                '**Offline: ' .. getData().offline .. '**\n' .. 
-                '**Update:** <t:' .. os.time() .. ':R>' .. '\n' .. 
-                '**Uptime: ' .. math.floor(c_time/86400) .. 'D ' .. math.floor(c_time%86400/3600) .. 'H ' .. math.floor(c_time%86400%3600/60) .. 'M ' .. math.floor(c_time%86400%3600%60) .. 'S**'
-
-            wh['embed1']['use'] = true
-            wh['embed1']['title'] = mads_title
-            wh['embed1']['thumbnail'] = mads_url
-            wh['embed1']['footer']['icon_url'] = mads_url
-            wh['embed1']['footer']['text'] = mads_date
-            wh['embed1']['description'] = mads_description
-            wh['embed1']['color'] = mads_color
-    
-            if total_bot > 24 then total_bot = 24 end
-            for i = 1,total_bot do
-                local status_bot = ':question:'
-                local script_bot = 'undefined'
-                if getBots()[i].name:upper() ~= bots.name:upper() then if getBots()[i]:isRunningScript() then script_bot = 'Executed' else script_bot = 'Terminated' end else script_bot = 'Executed' end
-                if getStatus(getBots()[i]) == 'online' then status_bot = ':green_circle:' else status_bot = ':red_circle:' end
-                local status_all = "```js\n" .. 
-                    "Status : " .. getStatus(getBots()[i]) .. ' [' .. getBots()[i]:getPing() .. ']\n' ..
-                    "Script : " .. script_bot .. '\n' .. 
-                    "Gems   : " .. getBots()[i].gem_count .. '\n' .. 
-                    "Level  : " .. getBots()[i].level .. '\n' .. 
-                    'World  : ' .. changeString(getBots()[i]:getWorld().name:upper()) .. ' [' .. getBots()[i].x .. ',' .. getBots()[i].y .. ']' ..
-                "\n```"
-                wh['embed1']:addField(
-                    '[' .. i .. '] ' .. changeString(entry.bot[i]) .. ' ' .. status_bot,
-                    status_all,
-                    false
-                )
-            end
-    
-            if #entry.bot > 24 then
-                wh['embed2']['use'] = true
-                wh['embed2']['footer']['icon_url'] = mads_url
-                wh['embed2']['footer']['text'] = mads_date
-                wh['embed2']['color'] = mads_color
-                for i = 25,#entry.bot do
-                    local status_bot = ':question:'
-                    local script_bot = 'undefined'
-                    if getBots()[i].name:upper() ~= bots.name:upper() then if getBots()[i]:isRunningScript() then script_bot = 'Executed' else script_bot = 'Terminated' end else script_bot = 'Executed' end
-                    if getStatus(getBots()[i]) == 'online' then status_bot = ':green_circle:' else status_bot = ':red_circle:' end
-                    local status_all = "```js\n" .. 
-                        "Status : " .. getStatus(getBots()[i]) .. ' [' .. getBots()[i]:getPing() .. ']\n' ..
-                        "Script : " .. script_bot .. '\n' .. 
-                        "Gems   : " .. getBots()[i].gem_count .. '\n' .. 
-                        "Level  : " .. getBots()[i].level .. '\n' .. 
-                        'World  : ' .. changeString(getBots()[i]:getWorld().name:upper()) .. ' [' .. getBots()[i].x .. ',' .. getBots()[i].y .. ']' ..
-                    "\n```"
-                    wh['embed2']:addField(
-                        '[' .. i .. '] ' .. changeString(entry.bot[i]) .. ' ' .. status_bot,
-                        status_all,
-                        false
-                    )
-                end
-            end
-            if entry.msg == '' then wh:send() else wh:edit(entry.msg) end
-            sleep(50)
-        end
-    end
+function botEvents(info)
+    te = os.time() - t
+    local text1 = [[
+    $w = "]]..nei_webhook_link..[["
+    $footerObject = @{
+        text = " Bot Uptime ]]..secondON(te).."\n"..[[]]..os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)..[["
+    }
+    $fieldArray = @(
+        @{
+            name = "<:botnei_2:1205836936296665108> **]]..bot.name..[[** (]]..bot.level..[[)]]..[["
+            value = "Bot Number: 0]]..indexBot.." <:neikoescript_02:1207245091413168158>\n"..[[Gems Amount: ]]..bot.gem_count.."\n"..[[Current World: ||**]]..world.."\n"..[[**||**  ** ]].."\n"..[[<:sspnei:1205840397130137610> **Storage List** ]].."\n"..[[Pack Result: ]]..profit.."\n"..[[Seed Result: ]]..profitSeed.."\n"..[[**  ** ]].."\n"..[[<:dirttreenei:1205844729997037659> **Farm Detect (]]..totalFarm..[[)** ]].."\n"..[[Total Tree: ]]..totalTree.."\n"..[[Ready Tree: ]]..readyTree.."\n"..[[Unready Tree: ]]..unreadyTree.."\n"..[[Harvested Tree: ]]..tree[world].."\n"..[[Fossil Rock Found: ]]..fossil.."\n"..[[ "
+            inline = "false"
+        }
+    )
+    $embedObject = @{
+        title = "Neikoe Script | Auto Rotation V1.5"
+        color = "16777215"
+        footer = $footerObject
+        fields = $fieldArray
+    }
+    $embedArray = @($embedObject)
+    $Body = @{
+        embeds = $embedArray
+    }
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    Invoke-RestMethod -Uri $w -Body ($Body | ConvertTo-Json -Depth 4) -Method Post -ContentType 'application/json'
+   ]]
+    local file = io.popen("powershell -command -", "w")
+    file:write(text1)
+    file:close()
 end
 
 function buyClothes()
@@ -571,7 +455,7 @@ function packInfo(link,id,desc)
             }
         )
         $embedObject = @{
-            title = "Neikoe Script | Auto Rotation V1.4"
+            title = "Neikoe Script | Auto Rotation V1.5"
             color = "16777215"
             footer = $footerObject
             fields = $fieldArray
