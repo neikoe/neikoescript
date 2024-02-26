@@ -3,10 +3,6 @@ bot.legit_mode = true       -- bot animation (default:true)
 bot.move_interval = 200     -- min 75, max 1000 (default:150)
 bot.move_range = nei_botmove_speed
 
-Webhook_Url       = "https://discord.com/api/webhooks/1196814801804984340/KBl0wRFFx6Ek9rzO2VdPA0EU1-DbkX2U5I75klt4uzK98-7u-ROqJNn-wDdPOONRPICS"
-Webhook_MessageID = "1196814801804984340"
-Delay_Checker     = 30000
-
 --// HIDDEN CONFIG
 maxBotEvents = 50                      
 autoDetect = true          -- auto detect farmable
@@ -81,6 +77,11 @@ fossilz = {}
 nei_farmlistBot = {}
 fired = false
 nuked = false
+off = 0
+onl = 0
+ttl = 0
+desc1 = ""
+desc2 = ""
 
 dividerSSeed = math.ceil(indexLast / #nei_storage_seed)
 storageSeed = nei_storage_seed[math.ceil(indexBot / dividerSSeed)]
@@ -205,6 +206,12 @@ local GetBot = function(bot)
 return status_Naming[status] or "offline"
 end
 
+function ceker
+    local desc1, desc2 = checker()
+    WebhookCheck(desc1, desc2)
+    sleep(Delay_Checker)
+end
+
 function secondON(seconds)
 	local seconds = tonumber(seconds)
 	
@@ -255,53 +262,58 @@ function tileDrop(x,y,num)
     return false
 end
 
-function WebhookCheck(desc1, desc2)
+function botInfo(webhookinfo,status)
     local text = [[
-        $webHookUrl = "]]..Webhook_Url..[[/messages/]]..Webhook_MessageID..[["
-        $thumbnailObject = @{
-            url = "https://cdn.discordapp.com/avatars/700903216908337162/dc818ce8c8267cf812e8a140df12f70c.png"
-        }
-        $footerObject = @{
-            text = "]]..(os.date("!%a %b %d, %Y at %I:%M %p", os.time() + 7 * 60 * 60))..[["
-        }
-        $fieldArray = @(
-            @{
-                name = ""
-                value = "**]]..desc1..[[**"
-                inline = "true"  
-            },
-            @{
-                name = ""
-                value = "**]]..desc2..[[**"
-                inline = "true"
-            }
-        )
-        $embedObject = @{
-            title = " **Webhook Orca Update 30s**"
-            color = "197379"
-            thumbnail = $thumbnailObject
-            footer = $footerObject
-            fields = $fieldArray
-        }
-
-        $embedArray = @($embedObject)
+        $webHookUrl = "]]..webhookinfo..[["
         $payload = @{
-            embeds = $embedArray
+            content = "]]..status..[["
         }
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Patch -ContentType 'application/json'
+        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Post -ContentType 'application/json'
     ]]
     local file = io.popen("powershell -command -", "w")
     file:write(text)
     file:close()
 end
 
+function botEvents(info)
+    te = os.time() - t
+    local text1 = [[
+    $w = "]]..nei_webhook_link..[["
+    $footerObject = @{
+        text = " Bot Uptime ]]..secondON(te).."\n"..[[]]..os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)..[["
+    }
+    $fieldArray = @(
+        @{
+            name = ""
+            value = "**]]..desc1..[[**"
+            inline = "true"  
+        },
+        @{
+            name = ""
+            value = "**]]..desc2..[[**"
+            inline = "true"
+        }
+    )
+    $embedObject = @{
+        title = "Neikoe Script | Auto Rotation V1.5"
+        color = "16777215"
+        footer = $footerObject
+        fields = $fieldArray
+    }
+    $embedArray = @($embedObject)
+    $Body = @{
+        embeds = $embedArray
+    }
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    Invoke-RestMethod -Uri $w -Body ($Body | ConvertTo-Json -Depth 4) -Method Post -ContentType 'application/json'
+   ]]
+    local file = io.popen("powershell -command -", "w")
+    file:write(text1)
+    file:close()
+end
+
 function checker()
-    off = 0
-    onl = 0
-    ttl = 0
-    desc1 = ""
-    desc2 = ""
     for _, bot in pairs(getBots()) do
         nama  = "" .. bot.name .. "\n"
         level = "Level : " .. bot.level .. "\n"
@@ -319,12 +331,6 @@ function checker()
     end
     desc2 = "Jumlah Online : " .. onl .. "\nJumlah Offline : " .. off .. "\nJumlah Bot : " .. ttl
     return desc1, desc2
-end
-
-while true do
-    local desc1, desc2 = checker()
-    WebhookCheck(desc1, desc2)
-    sleep(Delay_Checker)
 end
 
 function buyClothes()
@@ -395,7 +401,7 @@ function warp(world,id)
         listenEvents(5)
         sleep(delayWarp)
         if cok == 5 then
-        
+            botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." Server got lagging! hard warp world and bot will disconnect for a while! ")
             sleep(100)
             while bot.status == BotStatus.online do
                 bot:disconnect()
@@ -515,7 +521,7 @@ function reconnect(world,id,x,y)
             end
         end
         if currentRest then
-        
+            botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") Bot will rest for 5 minutes! ")
             sleep(100)
             if disconnectWhenRest then
                 bot.auto_reconnect = false
@@ -533,11 +539,11 @@ function reconnect(world,id,x,y)
         end
     end
     if bot.status ~= BotStatus.online or bot:getPing() == 0 then
-
+        botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") Disconnected! ")
         while bot.status ~= BotStatus.online or bot:getPing() == 0 do
             sleep(1000)
             if bot.status == BotStatus.account_banned then
-
+                botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") has been Banned!")
                 stopScript()
             end
         end
@@ -557,17 +563,17 @@ function reconnect(world,id,x,y)
             bot:findPath(x,y)
             sleep(100)
         end
-
+        botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..")".." is Connected! ")
     end
 end
 
 function reconnectHarvest(world,id)
     if bot.status ~= BotStatus.online or bot:getPing() == 0 then
-
+        botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") Disconnected! ")
         while bot.status ~= BotStatus.online or bot:getPing() == 0 do
             sleep(1000)
             if bot.status == BotStatus.account_banned then
-
+                botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") has been Banned!")
                 stopScript()
             end
         end
@@ -583,7 +589,7 @@ function reconnectHarvest(world,id)
             bot:sendPacket(3,"action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0")
             sleep(1000)
         end
-
+        botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..")".." is Connected! ")
     end
 end
 
@@ -1061,6 +1067,7 @@ function harvest(world)
                 if tiley ~= tile.y and indexBot <= maxBotEvents then
                     tiley = tile.y
                     sleep(100)
+                    botEvents("Currently in row "..math.ceil(tiley/2).."/27")
                 end
                 for _, i in pairs(mode3Tile) do
                     if getTile(tile.x + i,tile.y).fg == itmSeed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 then
@@ -1097,6 +1104,7 @@ function harvest(world)
                     if tiley ~= tile.y and indexBot <= maxBotEvents then
                         tiley = tile.y
                         sleep(100)
+                        botEvents("Currently in row "..math.ceil(tiley/2).."/27")
                     end
                     for _, i in pairs(mode3Tile) do
                         if getTile(tile.x + i,tile.y).fg == itmSeed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot:getWorld().name == world:upper() then
@@ -1136,6 +1144,7 @@ function harvest(world)
                     if tiley ~= tile.y and indexBot <= maxBotEvents then
                         tiley = tile.y
                         sleep(100)
+                        botEvents("Currently in row "..math.ceil(tiley/2).."/27")
                     end
                     for _, i in pairs(mode3Tile) do
                         if getTile(tile.x + i,tile.y).fg == itmSeed and getTile(tile.x + i,tile.y):canHarvest() and bot:getWorld():hasAccess(tile.x + i,tile.y) > 0 and bot:getWorld().name == world:upper() then
@@ -1418,6 +1427,7 @@ if response and message then
                         sleep(100)
                         waktu[world] = math.floor(tt/3600).." Hours "..math.floor(tt%3600/60).." Minutes"
                         sleep(100)
+                        botEvents("Farm finished.")
                         sleep(100)
                         if nei_safety_world and tt > 60 then
                             join()
