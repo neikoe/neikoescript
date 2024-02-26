@@ -206,12 +206,6 @@ local GetBot = function(bot)
 return status_Naming[status] or "offline"
 end
 
-function ceker
-    local desc1, desc2 = checker()
-    WebhookCheck(desc1, desc2)
-    sleep(Delay_Checker)
-end
-
 function secondON(seconds)
 	local seconds = tonumber(seconds)
 	
@@ -331,6 +325,12 @@ function checker()
     end
     desc2 = "Jumlah Online : " .. onl .. "\nJumlah Offline : " .. off .. "\nJumlah Bot : " .. ttl
     return desc1, desc2
+end
+
+while true do
+    local desc1, desc2 = checker()
+    WebhookCheck(desc1, desc2)
+    sleep(Delay_Checker)
 end
 
 function buyClothes()
