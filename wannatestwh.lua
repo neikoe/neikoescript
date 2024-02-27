@@ -20,7 +20,7 @@ editNoteProfile = false          -- edit note profile every store pack
 pnbInTutorial = false                -- set true if want pnb in tutorial
 whiteListOwner = "OWNER"            -- no ban whitelist name in world tutorial
 restTime = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23}        -- (only hours 0-23)
-disconnectWhenRest = true               -- if false will rest in EXIT
+disconnectWhenRest = false               -- if false will rest in EXIT
 autoCleanFire = false                            -- set true if want auto fire farm (need fire hose)
 storageFirehose = "WORLD"                            -- storage to take fire hose
 doorFirehose = "ID"                               -- id door to enter world storage
@@ -77,11 +77,6 @@ fossilz = {}
 nei_farmlistBot = {}
 fired = false
 nuked = false
-off = 0
-onl = 0
-ttl = 0
-desc1 = ""
-desc2 = ""
 
 dividerSSeed = math.ceil(indexLast / #nei_storage_seed)
 storageSeed = nei_storage_seed[math.ceil(indexBot / dividerSSeed)]
@@ -279,18 +274,13 @@ function botEvents(info)
     }
     $fieldArray = @(
         @{
-            name = ""
-            value = "**]]..desc1..[[**"
-            inline = "true"  
-        },
-        @{
-            name = ""
-            value = "**]]..desc2..[[**"
-            inline = "true"
+            name = "<:botnei_2:1205836936296665108> **]]..bot.name..[[** (]]..bot.level..[[)]]..[["
+            value = "Bot Number: 0]]..indexBot.." <:neikoescript_02:1207245091413168158>\n"..[[Gems Amount: ]]..bot.gem_count.."\n"..[[Current World: ||**]]..world.."\n"..[[**||**  ** ]].."\n"..[[<:sspnei:1205840397130137610> **Storage List** ]].."\n"..[[Pack Result: ]]..profit.."\n"..[[Seed Result: ]]..profitSeed.."\n"..[[**  ** ]].."\n"..[[<:dirttreenei:1205844729997037659> **Farm Detect (]]..totalFarm..[[)** ]].."\n"..[[Total Tree: ]]..totalTree.."\n"..[[Ready Tree: ]]..readyTree.."\n"..[[Unready Tree: ]]..unreadyTree.."\n"..[[Harvested Tree: ]]..tree[world].."\n"..[[Fossil Rock Found: ]]..fossil.."\n"..[[ "
+            inline = "false"
         }
     )
     $embedObject = @{
-        title = "Neikoe Script | Auto Rotation V1.5"
+        title = "Neikoe Script | Auto Rotation V1.4"
         color = "16777215"
         footer = $footerObject
         fields = $fieldArray
@@ -305,32 +295,6 @@ function botEvents(info)
     local file = io.popen("powershell -command -", "w")
     file:write(text1)
     file:close()
-end
-
-function checker()
-    for _, bot in pairs(getBots()) do
-        nama  = "" .. bot.name .. "\n"
-        level = "Level : " .. bot.level .. "\n"
-        gems = "Gems : " .. bot.gem_count .. "\n"
-        world = "World : " .. bot:getWorld().name .. "\n"
-		acript = "Exe : " .. (bot:isRunningScript() == true and "<a:centang2:1021818193267933205>" or "Stopped") .. "\n"
-        sts = "Status : " .. (bot.status == 1 and ":green_circle: Online" or ":red_circle: Offline") .. "\n"
-        ttl   = ttl + 1
-        if bot.status ~= 1 then
-            off = off + 1
-        else
-            onl = onl + 1
-        end
-        desc1 = desc1 .. nama .. level .. gems .. world .. acript .. sts .. "\n`n"
-    end
-    desc2 = "Jumlah Online : " .. onl .. "\nJumlah Offline : " .. off .. "\nJumlah Bot : " .. ttl
-    return desc1, desc2
-end
-
-while true do
-    local desc1, desc2 = checker()
-    WebhookCheck(desc1, desc2)
-    sleep(Delay_Checker)
 end
 
 function buyClothes()
@@ -401,7 +365,7 @@ function warp(world,id)
         listenEvents(5)
         sleep(delayWarp)
         if cok == 5 then
-            botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." Server got lagging! hard warp world and bot will disconnect for a while! ")
+            botInfo(nei_webhook_link,"<a:neyelow:1211255159531900968> "..bot.name.." Server got lagging! hard warp world and bot will disconnect for a while! ")
             sleep(100)
             while bot.status == BotStatus.online do
                 bot:disconnect()
@@ -491,7 +455,7 @@ function packInfo(link,id,desc)
             }
         )
         $embedObject = @{
-            title = "Neikoe Script | Auto Rotation V1.5"
+            title = "Neikoe Script | Auto Rotation V1.4"
             color = "16777215"
             footer = $footerObject
             fields = $fieldArray
@@ -521,7 +485,7 @@ function reconnect(world,id,x,y)
             end
         end
         if currentRest then
-            botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") Bot will rest for 5 minutes! ")
+            botInfo(nei_webhook_link,"<a:neyelow:1211255159531900968> "..bot.name.." ("..bot.level..") Bot will rest for 5 minutes! ")
             sleep(100)
             if disconnectWhenRest then
                 bot.auto_reconnect = false
@@ -539,11 +503,11 @@ function reconnect(world,id,x,y)
         end
     end
     if bot.status ~= BotStatus.online or bot:getPing() == 0 then
-        botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") Disconnected! ")
+        botInfo(nei_webhook_link,"<a:neoffline:1205764554454474783> "..bot.name.." ("..bot.level..") Disconnected! ")
         while bot.status ~= BotStatus.online or bot:getPing() == 0 do
             sleep(1000)
             if bot.status == BotStatus.account_banned then
-                botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") has been Banned!")
+                botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..bot.level..") has been Banned!")
                 stopScript()
             end
         end
@@ -563,17 +527,17 @@ function reconnect(world,id,x,y)
             bot:findPath(x,y)
             sleep(100)
         end
-        botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..")".." is Connected! ")
+        botInfo(nei_webhook_link,"<a:neonline:1205764467351363604> "..bot.name.." ("..bot.level..")".." is Connected! ")
     end
 end
 
 function reconnectHarvest(world,id)
     if bot.status ~= BotStatus.online or bot:getPing() == 0 then
-        botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") Disconnected! ")
+        botInfo(nei_webhook_link,"<a:neoffline:1205764554454474783> "..bot.name.." ("..bot.level..") Disconnected! ")
         while bot.status ~= BotStatus.online or bot:getPing() == 0 do
             sleep(1000)
             if bot.status == BotStatus.account_banned then
-                botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..") has been Banned!")
+                botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..bot.level..") has been Banned!")
                 stopScript()
             end
         end
@@ -589,7 +553,7 @@ function reconnectHarvest(world,id)
             bot:sendPacket(3,"action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0")
             sleep(1000)
         end
-        botInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." ("..indexBot..")".." is Connected! ")
+        botInfo(nei_webhook_link,"<a:neonline:1205764467351363604> "..bot.name.." ("..bot.level..")".." is Connected! ")
     end
 end
 
