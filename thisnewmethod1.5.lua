@@ -22,7 +22,7 @@ disconnectWhenRest = true               -- if false will rest in EXIT
 autoCleanFire = false                            -- set true if want auto fire farm (need fire hose)
 storageFirehose = "WORLD"                            -- storage to take fire hose
 doorFirehose = "ID"                               -- id door to enter world storage
-worldToJoin = {"ASMEI","DAW","QUCU","ALFAMARTS","BUYDCS"}  -- list of world to join after finishing 1 world
+worldToJoin = {"ASMEI","DAW","QUCU","ALFAMARTS","BUYPEPPER"}  -- list of world to join after finishing 1 world
 customTile = false                  -- Set true if custom breaking pos for pnb in world
 customX = 0                         -- Custom breaking pos x
 customY = 0                         -- Custom breaking pos y
@@ -374,7 +374,7 @@ function botEvents(info) -- ini yang aseli njir
             if total_bot > 24 then total_bot = 24 end 
             for j = 1,total_bot do
                 local status_bot = ':question:'
-                if GetBot(getBots()[j].name):lower() == 'online' then status_bot = "<a:neonline:1211255126392840203>" else status_bot = "<a:nered:1211255144017297418>" end 
+                if GetBot(getBots()[j].name):lower() == 'online' then status_bot = "<a:negreen:1211255126392840203>" else status_bot = "<a:nered:1211255144017297418>" end 
                 local status_all = "Bot Status: " .. GetBot(getBots()[j].name) .. " [" .. getBots()[j]:getPing() .. "]\n" .. 
                     "Bot Gems: " .. getBots()[j].gem_count .. "\n" .. 
                     "Bot Level: " .. getBots()[j].level .. "\n" .. 
@@ -392,7 +392,7 @@ function botEvents(info) -- ini yang aseli njir
                 nei_wh.embed2.color = nei_color
                 for j = 24,#entry.bot do
                     local status_bot = ':question:'
-                    if GetBot(getBots()[j].name):lower() == 'online' then status_bot = "<a:neonline:1211255126392840203>" else status_bot = "<a:nered:1211255144017297418>" end 
+                    if GetBot(getBots()[j].name):lower() == 'online' then status_bot = "<a:negreen:1211255126392840203>" else status_bot = "<a:nered:1211255144017297418>" end 
                     local status_all = "Bot Status: " .. GetBot(getBots()[j].name) .. " [" .. getBots()[j]:getPing() .. "]\n" .. 
                         "Bot Gems: " .. getBots()[j].gem_count .. "\n" .. 
                         "Bot Level: " .. getBots()[j].level .. "\n" .. 
