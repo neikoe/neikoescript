@@ -374,7 +374,7 @@ function botEvents(info) -- ini yang aseli njir
             if total_bot > 24 then total_bot = 24 end 
             for j = 1,total_bot do
                 local status_bot = ':question:'
-                if GetBot(getBots()[j].name):lower() == 'online' then status_bot = "<a:neonline:1205764467351363604>" else status_bot = "<a:nered:1211255144017297418>" end 
+                if GetBot(getBots()[j].name):lower() == 'online' then status_bot = "<a:neonline:1211255126392840203>" else status_bot = "<a:nered:1211255144017297418>" end 
                 local status_all = "Bot Status: " .. GetBot(getBots()[j].name) .. " [" .. getBots()[j]:getPing() .. "]\n" .. 
                     "Bot Gems: " .. getBots()[j].gem_count .. "\n" .. 
                     "Bot Level: " .. getBots()[j].level .. "\n" .. 
@@ -392,7 +392,7 @@ function botEvents(info) -- ini yang aseli njir
                 nei_wh.embed2.color = nei_color
                 for j = 24,#entry.bot do
                     local status_bot = ':question:'
-                    if GetBot(getBots()[j].name):lower() == 'online' then status_bot = "<a:neonline:1205764467351363604>" else status_bot = "<a:nered:1211255144017297418>" end 
+                    if GetBot(getBots()[j].name):lower() == 'online' then status_bot = "<a:neonline:1211255126392840203>" else status_bot = "<a:nered:1211255144017297418>" end 
                     local status_all = "Bot Status: " .. GetBot(getBots()[j].name) .. " [" .. getBots()[j]:getPing() .. "]\n" .. 
                         "Bot Gems: " .. getBots()[j].gem_count .. "\n" .. 
                         "Bot Level: " .. getBots()[j].level .. "\n" .. 
