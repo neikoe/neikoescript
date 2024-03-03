@@ -589,7 +589,7 @@ function reconnect(world,id,x,y)
             end
         end
         if currentRest then
-            botInfo(nei_webhook_link,"<a:neyelow:1211255159531900968> "..bot.name.." ("..bot.level..") Bot will rest for a minutes! ")
+
             sleep(100)
             if disconnectWhenRest then
                 bot.auto_reconnect = false
