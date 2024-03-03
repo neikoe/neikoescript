@@ -27,7 +27,7 @@ customTile = false                  -- Set true if custom breaking pos for pnb i
 customX = 0                         -- Custom breaking pos x
 customY = 0                         -- Custom breaking pos y
 delayExecute = 2000         -- execute between bot delay
-delayReconnect = 180         -- in seconds
+delayReconnect = 20         -- in seconds
 variationDelay = true       -- variation delay for nei_delay_punch
 breakVariationDelay = 10    -- if nei_delay_punch 180 so variation will be 170-190
 
