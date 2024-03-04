@@ -5,7 +5,6 @@ bot.move_range = nei_botmove_speed
 
 --// HIDDEN CONFIG
 maxBotEvents = 50 
-dontPlant = false                       -- store all seed and dont plant any
 autoDetect = true          -- auto detect farmable
 itmSeed = nei_itemid_block + 1         -- don't edit
 root = false                -- set true if root farming 
@@ -301,7 +300,7 @@ function botEventss(info)
         }
     )
     $embedObject = @{
-        title = "Neikoe Script | Auto Rotation V1.5"
+        title = "Neikoe Script | Auto Rotation V1.6"
         description = $desc
         color = "16777215"
         footer = $footerObject
@@ -348,18 +347,17 @@ function botEvents(info) -- ini yang aseli njir
         if #entry.bot > 0 then
             local nei_wh = Webhook.new(entry.url)
             local total_bot = #entry.bot 
-            local nei_title = "Neikoe Script | Auto Rotation V1.5"
+            local nei_title = "Neikoe Script | Auto Rotation V1.6"
             local nei_color = "16777215"
-            local nei_date = "" .. os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)
+            local nei_date = "".. os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)
             local nei_description = "Last Updated: <t:" .. os.time() .. ":R>\n\n" ..
                 "<:neikoescript_02:1207245091413168158> **Recent Activities** \n" .. 
                 "Bot Number: 0" .. indexBot .. "\n" ..
-                "Current World: ||" .. world .. "||\n" ..
                 "Total Tree: " .. totalTree .. "\n" .. 
                 "Ready Tree: " .. readyTree .. "\n" .. 
                 "Unready Tree: " .. readyTree .. "\n" .. 
                 "Harvested Tree: " .. tree[world] .. "\n" .. 
-                "Fossil Rock Found: " .. fossil .. "\n\n" .. 
+                "Fossil Rock Found: " .. fossil .. "\n\n" ..
                 "<:botnei_2:1205836936296665108> **Bot Details** \n" .. 
                 "Total Bot Gems: " .. getData().gems .. "\n" .. 
                 "Total Bot Online: " .. getData().online .. "\n" .. 
@@ -514,7 +512,7 @@ function warp(world,id)
             end
         end
         if getTile(bot.x,bot.y).fg == 6 then
-            nukeWorldInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." Can't Entered "..world.." ")
+            nukeWorldInfo(nei_webhook_link,"<a:warnings_2:1205693669491875850> "..bot.name.." Can't Entered "..world.." Maybe Wrong ID Door Or Hard Wrap! ")
             sleep(100)
             nuked = true
         end
@@ -559,7 +557,7 @@ function packInfo(link,id,desc)
             }
         )
         $embedObject = @{
-            title = "Neikoe Script | Auto Rotation V1.5"
+            title = "Neikoe Script | Auto Rotation V1.6"
             color = "16777215"
             footer = $footerObject
             fields = $fieldArray
@@ -589,7 +587,7 @@ function reconnect(world,id,x,y)
             end
         end
         if currentRest then
-            botInfo(nei_webhook_link,"<a:neyelow:1211255159531900968> "..bot.name.." ("..bot.level..") Bot will rest for a minutes! ")
+
             sleep(100)
             if disconnectWhenRest then
                 bot.auto_reconnect = false
@@ -922,7 +920,7 @@ function pnb(world)
     end
     warp(world,doorFarm)
     sleep(100)
-    if not dontPlant then
+    if not nei_saveall_seed then
         plant(world)
     end
     sleep(100)
@@ -1164,7 +1162,7 @@ function harvest(world)
         end
     end
     if bot.level >= nei_level_onlyht or not nei_lvling_setting then
-        if dontPlant then
+        if nei_saveall_seed then
             for _,tile in pairs(bot:getWorld():getTiles()) do
                 reconnectHarvest(world,doorFarm)
                 if tile:canHarvest() and bot:isInWorld(world:upper()) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 then
