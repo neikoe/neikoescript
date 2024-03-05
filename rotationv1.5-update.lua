@@ -47,7 +47,7 @@ for i, botz in pairs(getBots()) do
 end
 bot.collect_range = 3
 bot.auto_reconnect = true
-bot.reconnect_interval = 140
+bot.reconnect_interval = 20
 bot.collect_interval = 500
 
 world = ""
