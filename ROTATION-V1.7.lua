@@ -4,7 +4,6 @@ bot.legit_mode = true       -- bot animation (default:true)
 bot.move_interval = 200     -- min 75, max 1000 (default:150)
 bot.move_range = nei_botmove_speed
 
-maxBotEvents = 50 
 autoDetect = true          -- auto detect farmable
 itmSeed = nei_itemid_block + 1         -- don't edit
 root = false                -- set true if root farming 
