@@ -496,7 +496,7 @@ function packInfo(link,id,desc)
     local text = [[
         $webHookUrl = "]]..link..[[/messages/]]..id..[["
         $footerObject = @{
-            text = " Script Runtime ]]..getUptime().."\n"..[[]]..os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)..[["
+            text = " ]]..os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)..[["
         }
         $thumbnailObject = @{
             url = "https://media.discordapp.net/attachments/1205088853099028480/1209099876642721813/Picsart_24-02-14_15-40-23-071.png?ex=65f82602&is=65e5b102&hm=8f2da9f341a0fb2831f2670c1e89fad2a7fa46830813262f2cfd30f981f9f88b&=&format=webp&quality=lossless&width=616&height=616" 
