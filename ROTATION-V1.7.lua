@@ -1427,11 +1427,11 @@ local message = jsonString:match(messagePattern)
 
 if response and message then
     -- Print values
-    print("Lisence identify.. " .. response)
-    print("" .. message)
+    print("Status: " .. response)
+    print("Message: " .. message)
     callEvent("Neikoe script started!")
 
-    if response == "registered" then
+    if response == "success" then
             while bot.status ~= BotStatus.online do
                 print("Neikoe script started!")
                 sleep(100)
