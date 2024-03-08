@@ -265,6 +265,8 @@ end
 
 function callEvent(msg)
     local wh = Webhook.new(nei_webhook_second_link)
+    wh.username = "Neikoe Script - Webhook"
+    wh.avatar_url = "https://media.discordapp.net/attachments/1205088853099028480/1215642885509357628/Picsart_24-03-08_19-50-17-259.jpg?ex=65fd7ea9&is=65eb09a9&hm=b262445cadf62cca361596edead1621771e140a05e09d2d4e4979e09ee298f6d&=&format=webp&width=570&height=570"
     wh.embed1.use = true
     wh.embed1.color = 16756592 
     wh.embed1.description = "".. msg
@@ -299,6 +301,8 @@ function botEvents(info) -- ini yang aseli njir
     for i,entry in ipairs(nei_webhook_new) do
         if #entry.bot > 0 then
             local nei_wh = Webhook.new(entry.url)
+            local nei_username = "Neikoe Script - Webhook"
+            local nei_avatar_url = "https://media.discordapp.net/attachments/1205088853099028480/1215642885509357628/Picsart_24-03-08_19-50-17-259.jpg?ex=65fd7ea9&is=65eb09a9&hm=b262445cadf62cca361596edead1621771e140a05e09d2d4e4979e09ee298f6d&=&format=webp&width=570&height=570"
             local total_bot = #entry.bot 
             local nei_title = "Neikoe | Rotation V1.8"
             local nei_thumbnail = "https://media.discordapp.net/attachments/1205088853099028480/1209099876642721813/Picsart_24-02-14_15-40-23-071.png?ex=65f82602&is=65e5b102&hm=8f2da9f341a0fb2831f2670c1e89fad2a7fa46830813262f2cfd30f981f9f88b&=&format=webp&quality=lossless&width=616&height=616"
@@ -313,6 +317,8 @@ function botEvents(info) -- ini yang aseli njir
                 "**|** Fossil Rock Found: " .. fossil .. "\n\n"
 
             nei_wh.embed1.use = true
+            nei_wh.username = nei_username
+            nei_wh.avatar_url = nei_avatar_url
             nei_wh.embed1.title = nei_title
             nei_wh.embed1.thumbnail = nei_thumbnail
             nei_wh.embed1.footer.text = nei_date 
