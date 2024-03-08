@@ -42,8 +42,8 @@ for i, botz in pairs(getBots()) do
     indexLast = i
 end
 bot.collect_range = 3
-bot.auto_reconnect = nei_delay_reconnect
-bot.reconnect_interval = 20
+bot.auto_reconnect = true
+bot.reconnect_interval = nei_delay_reconnect
 bot.collect_interval = 500
 bot.auto_leave_on_mod = true
 
