@@ -1359,6 +1359,7 @@ end
 function checkFire(world)
     totalTree = 0
     readyTree = 0
+    unreadyTree = 0
     fossil = 0
     toxicwst = false
     for _,tile in pairs(bot:getWorld():getTiles()) do
@@ -1366,11 +1367,18 @@ function checkFire(world)
             fired = true
         end
         if tile.fg == itmSeed then
-            totalTree = totalTree + 1
+            totalTree = readyTree + unreadyTree
             if tile:canHarvest() then
                 readyTree = readyTree + 1
             end
         end
+        if tile.fg == itmSeed then
+            totalTree = readyTree + unreadyTree
+            if not tile:canHarvest() then
+                unreadyTree = unreadyTree + 1
+            end
+        end
+
         if tile.fg == 3918 then
             fossil = fossil + 1
         end
