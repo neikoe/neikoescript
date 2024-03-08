@@ -42,8 +42,8 @@ for i, botz in pairs(getBots()) do
     indexLast = i
 end
 bot.collect_range = 3
-bot.auto_reconnect = nei_delay_reconnect
-bot.reconnect_interval = 20
+bot.auto_reconnect = true
+bot.reconnect_interval = nei_delay_reconnect
 bot.collect_interval = 500
 bot.auto_leave_on_mod = true
 
@@ -300,7 +300,7 @@ function botEvents(info) -- ini yang aseli njir
         if #entry.bot > 0 then
             local nei_wh = Webhook.new(entry.url)
             local total_bot = #entry.bot 
-            local nei_title = "Neikoe | Rotation V1.7"
+            local nei_title = "Neikoe | Rotation V1.8"
             local nei_thumbnail = "https://media.discordapp.net/attachments/1205088853099028480/1209099876642721813/Picsart_24-02-14_15-40-23-071.png?ex=65f82602&is=65e5b102&hm=8f2da9f341a0fb2831f2670c1e89fad2a7fa46830813262f2cfd30f981f9f88b&=&format=webp&quality=lossless&width=616&height=616"
             local nei_color = "16756592"
             local nei_date = "Script Runtime " .. getUptime() .."\n" .. os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)
@@ -509,7 +509,7 @@ function packInfo(link,id,desc)
             }
         )
         $embedObject = @{
-            title = "Pack Info | Rotation V1.7"
+            title = "Pack Info | Rotation V1.8"
             color = "16756592"
             footer = $footerObject
             thumbnail = $thumbnailObject
@@ -585,9 +585,9 @@ function reconnect(world,id,x,y)
         while bot:getWorld().name ~= world:upper() do
             bot:sendPacket(3,"action|join_request\nname|"..world:upper().."\ninvitedWorld|0")
             sleep(nei_delay_warp)
-            print(bot.name:upper().." go to "..bot:getWorld().name:upper().." for rotating again ")
+            print(bot.name:upper().." has reconnected. Please check on your lucifer whether the bot is stuck or not.\nIf the bot is stuck, please re-run the script ")
             sleep(100)
-            callEvent(bot.name:upper().." | go to ||"..bot:getWorld().name:upper().."|| for rotating again ")
+            callEvent(bot.name:upper().." has reconnected. Please check on your lucifer whether the bot is stuck or not.\nIf the bot is stuck, please re-run the script  ")
             sleep(100)
         end
         if id ~= "" and getTile(bot.x,bot.y).fg == 6 then
