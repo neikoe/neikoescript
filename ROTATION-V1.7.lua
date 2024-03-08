@@ -585,9 +585,9 @@ function reconnect(world,id,x,y)
         while bot:getWorld().name ~= world:upper() do
             bot:sendPacket(3,"action|join_request\nname|"..world:upper().."\ninvitedWorld|0")
             sleep(nei_delay_warp)
-            print(bot.name:upper().." has reconnected. Please check on your lucifer whether the bot is stuck or not.\nIf the bot is stuck, please re-run the script ")
+            print(bot.name:upper().." has reconnected. Please check on your lucifer whether the bot is stuck or not. If the bot is stuck, please re-run the script ")
             sleep(100)
-            callEvent(bot.name:upper().." has reconnected. Please check on your lucifer whether the bot is stuck or not.\nIf the bot is stuck, please re-run the script  ")
+            callEvent(bot.name:upper().." has reconnected. Please check on your lucifer whether the bot is stuck or not. If the bot is stuck, please re-run the script  ")
             sleep(100)
         end
         if id ~= "" and getTile(bot.x,bot.y).fg == 6 then
