@@ -265,7 +265,7 @@ end
 
 function callEvent(msg)
     local wh = Webhook.new(nei_webhook_second_link)
-    wh.username = "Neikoe Script - Webhook"
+    wh.username = "NEIKOE SCRIPT - WEBHOOK"
     wh.avatar_url = "https://media.discordapp.net/attachments/1205088853099028480/1215642885509357628/Picsart_24-03-08_19-50-17-259.jpg?ex=65fd7ea9&is=65eb09a9&hm=b262445cadf62cca361596edead1621771e140a05e09d2d4e4979e09ee298f6d&=&format=webp&width=570&height=570"
     wh.embed1.use = true
     wh.embed1.color = 16756592 
@@ -301,7 +301,7 @@ function botEvents(info) -- ini yang aseli njir
     for i,entry in ipairs(nei_webhook_new) do
         if #entry.bot > 0 then
             local nei_wh = Webhook.new(entry.url)
-            local nei_username = "Neikoe Script - Webhook"
+            local nei_username = "NEIKOE SCRIPT - WEBHOOK"
             local nei_avatar_url = "https://media.discordapp.net/attachments/1205088853099028480/1215642885509357628/Picsart_24-03-08_19-50-17-259.jpg?ex=65fd7ea9&is=65eb09a9&hm=b262445cadf62cca361596edead1621771e140a05e09d2d4e4979e09ee298f6d&=&format=webp&width=570&height=570"
             local total_bot = #entry.bot 
             local nei_title = "Neikoe | Rotation V1.8"
@@ -579,7 +579,7 @@ function reconnect(world,id,x,y)
             if bot.status == BotStatus.account_banned then
                 print(bot.name:upper().." has been banned! ")
                 sleep(100)
-                callEvent(bot.name:upper().." | has been banned! ")
+                callEvent(bot.name:upper().." | has been banned!\n@Everyone ")
                 sleep(100)
                 stopScript()
             end
@@ -619,7 +619,7 @@ function reconnectHarvest(world,id)
             if bot.status == BotStatus.account_banned then
                 print(bot.name:upper().." has been banned! ")
                 sleep(100)
-                callEvent(bot.name:upper().." | has been banned! ")
+                callEvent(bot.name:upper().." | has been banned!\n@Everyone ")
                 sleep(100)
                 stopScript()
             end
@@ -1452,9 +1452,9 @@ if response and message then
                 callEvent("Neikoe script started!")
                 sleep(1000)
                 while bot.status == BotStatus.account_banned do
-                    print(bot.name:upper().." has been banned!")
+                    print(bot.name:upper().." has been banned! ")
                     sleep(100)
-                    callEvent(bot.name:upper().." | has been banned!")
+                    callEvent(bot.name:upper().." | has been banned!\n@Everyone ")
                     sleep(100)
                     bot:stopScript()
                 end
