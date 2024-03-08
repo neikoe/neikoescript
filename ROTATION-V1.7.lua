@@ -1448,6 +1448,7 @@ if response and message then
 
             for i = indexBot, 1, -1 do
                     sleep(delayExecute)
+                    goExit()
             end
 
             while bot.status ~= BotStatus.online do
