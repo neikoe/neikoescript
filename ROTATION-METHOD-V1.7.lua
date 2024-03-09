@@ -265,6 +265,19 @@ end
 
 function callEvent(msg)
     local wh = Webhook.new(nei_webhook_second_link)
+    wh.username = "NEIKOE SCRIPT - WEBHOOK"
+    wh.avatar_url = "https://media.discordapp.net/attachments/1205088853099028480/1215642885509357628/Picsart_24-03-08_19-50-17-259.jpg?ex=65fd7ea9&is=65eb09a9&hm=b262445cadf62cca361596edead1621771e140a05e09d2d4e4979e09ee298f6d&=&format=webp&width=570&height=570"
+    wh.embed1.use = true
+    wh.embed1.color = 16756592 
+    wh.embed1.description = "".. msg
+    wh:send()
+end
+
+function pingnei(msg)
+    local wh = Webhook.new(nei_webhook_second_link)
+    wh.username = "NEIKOE SCRIPT - WEBHOOK"
+    wh.avatar_url = "https://media.discordapp.net/attachments/1205088853099028480/1215642885509357628/Picsart_24-03-08_19-50-17-259.jpg?ex=65fd7ea9&is=65eb09a9&hm=b262445cadf62cca361596edead1621771e140a05e09d2d4e4979e09ee298f6d&=&format=webp&width=570&height=570"
+    wh.content = "@everyone"
     wh.embed1.use = true
     wh.embed1.color = 16756592 
     wh.embed1.description = "".. msg
@@ -299,6 +312,8 @@ function botEvents(info) -- ini yang aseli njir
     for i,entry in ipairs(nei_webhook_new) do
         if #entry.bot > 0 then
             local nei_wh = Webhook.new(entry.url)
+            local nei_username = "NEIKOE SCRIPT - WEBHOOK"
+            local nei_avatar_url = "https://media.discordapp.net/attachments/1205088853099028480/1215642885509357628/Picsart_24-03-08_19-50-17-259.jpg?ex=65fd7ea9&is=65eb09a9&hm=b262445cadf62cca361596edead1621771e140a05e09d2d4e4979e09ee298f6d&=&format=webp&width=570&height=570"
             local total_bot = #entry.bot 
             local nei_title = "Neikoe | Rotation Method Version"
             local nei_thumbnail = "https://media.discordapp.net/attachments/1205088853099028480/1209099876642721813/Picsart_24-02-14_15-40-23-071.png?ex=65f82602&is=65e5b102&hm=8f2da9f341a0fb2831f2670c1e89fad2a7fa46830813262f2cfd30f981f9f88b&=&format=webp&quality=lossless&width=616&height=616"
@@ -313,6 +328,8 @@ function botEvents(info) -- ini yang aseli njir
                 "**|** Fossil Rock Found: " .. fossil .. "\n\n"
 
             nei_wh.embed1.use = true
+            nei_wh.username = nei_username
+            nei_wh.avatar_url = nei_avatar_url
             nei_wh.embed1.title = nei_title
             nei_wh.embed1.thumbnail = nei_thumbnail
             nei_wh.embed1.footer.text = nei_date 
@@ -346,8 +363,6 @@ function botEvents(info) -- ini yang aseli njir
                         "[" .. j .. "] " .. entry.bot[j] .. "" .. status_bot,status_all,false)
                 end
             end
-           
-
             if entry.msg == '' then 
                 nei_wh:send()
             else
@@ -418,7 +433,7 @@ function warp(world,id)
         if cok == 5 then
             print(bot.name:upper().." hard warp! bot while offline for a while ")
             sleep(100)
-            callEvent(bot.name:upper().." | hard warp! bot while offline for a while ")
+            pingnei(bot.name:upper().." | hard warp! bot while offline for a while ")
             sleep(100)
             while bot.status == BotStatus.online do
                 bot:disconnect()
@@ -435,7 +450,7 @@ function warp(world,id)
     if nuked then
         print(bot.name:upper().." can't go to "..world.." it's inaccessible! ")
         sleep(100)
-        callEvent(bot.name:upper().." | can't go to "..world.." it's inaccessible! ")
+        pingnei(bot.name:upper().." | can't go to "..world.." it's inaccessible! ")
         sleep(100)
     end
     if id ~= "" and getTile(bot.x,bot.y).fg == 6 and not nuked then
@@ -458,7 +473,7 @@ function warp(world,id)
         if getTile(bot.x,bot.y).fg == 6 then
             print(bot.name:upper().." can't go to "..world.." maybe wrong id or hard warp! ")
             sleep(100)
-            callEvent(bot.name:upper().." | can't go to "..world.." maybe wrong id or hard warp! ")
+            pingnei(bot.name:upper().." | can't go to "..world.." maybe wrong id or hard warp! ")
             sleep(100)
             nuked = true
         end
@@ -528,10 +543,11 @@ function packInfo(link,id,desc)
 end
 
 function reconnect(world,id,x,y)
+    nuked = false
     if bot.level >= nei_stopsc_atlvl then
         print(bot.name:upper().." reach level u set and script stopped! ")
         sleep(100)
-        callEvent(bot.name:upper().." | reach level u set and script stopped! ")
+        pingnei(bot.name:upper().." | reach level u set and script stopped! ")
         sleep(100)
         bot:stopScript()
     end
@@ -573,7 +589,7 @@ function reconnect(world,id,x,y)
             if bot.status == BotStatus.account_banned then
                 print(bot.name:upper().." has been banned! ")
                 sleep(100)
-                callEvent(bot.name:upper().." | has been banned! ")
+                pingnei(bot.name:upper().." | has been banned! ")
                 sleep(100)
                 stopScript()
             end
@@ -585,11 +601,21 @@ function reconnect(world,id,x,y)
         while bot:getWorld().name ~= world:upper() do
             bot:sendPacket(3,"action|join_request\nname|"..world:upper().."\ninvitedWorld|0")
             sleep(nei_delay_warp)
-            print(bot.name:upper().." go to "..bot:getWorld().name:upper().." for rotating again ")
+            print(bot.name:upper().." has reconnected. Please check on your lucifer whether the bot is stuck or not. If the bot is stuck, please re-run the script ")
             sleep(100)
-            callEvent(bot.name:upper().." | go to ||"..bot:getWorld().name:upper().."|| for rotating again ")
+            callEvent(bot.name:upper().." | has reconnected. Please check on your lucifer whether the bot is stuck or not. If the bot is stuck, please re-run the script  ")
             sleep(100)
         end
+
+        if nuked then
+            print(bot.name:upper().." can't go to "..world.." it's inaccessible! ")
+            sleep(100)
+            pingnei(bot.name:upper().." | can't go to "..world.." it's inaccessible! ")
+            sleep(100)
+            removeEvent(Event.variantlist)
+            sleep(100)
+        end
+
         if id ~= "" and getTile(bot.x,bot.y).fg == 6 then
             bot:sendPacket(3,"action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0")
             sleep(2000)
@@ -613,7 +639,7 @@ function reconnectHarvest(world,id)
             if bot.status == BotStatus.account_banned then
                 print(bot.name:upper().." has been banned! ")
                 sleep(100)
-                callEvent(bot.name:upper().." | has been banned! ")
+                pingnei(bot.name:upper().." | has been banned! ")
                 sleep(100)
                 stopScript()
             end
@@ -650,9 +676,21 @@ function storeSeed(world)
     sleep(100)
     warp(storageSeed,nei_door_seed)
     sleep(100)
-    print(bot.name:upper().." dropped seed at "..bot:getWorld().name:upper())
+    if nei_autochat_setting then
+        chatBot = listChat[math.random(1,#listChat)]
+        bot:say(chatBot)
+        sleep(1000)
+        chatBot = emoteChat[math.random(1,#emoteChat)]
+        bot:say(chatBot)
+        sleep(1000)
+    end
+    if changeColorSkin then
+        bot:setSkin(math.random(1,8))
+        sleep(100)
+    end
+    print(bot.name:upper().." dropping seed at "..bot:getWorld().name:upper())
     sleep(100)
-    callEvent(bot.name:upper().." | dropped seed at ||"..bot:getWorld().name:upper().."||")
+    callEvent(bot.name:upper().." | dropping seed at ||"..bot:getWorld().name:upper().."||")
     sleep(100)
     ba = bot:getInventory():findItem(itmSeed)
     for _,tile in pairs(bot:getWorld():getTiles()) do
@@ -961,6 +999,18 @@ function buyPack(world)
     sleep(100)
     warp(storagePack,nei_door_pack)
     sleep(100)
+    if nei_autochat_setting then
+        chatBot = listChat[math.random(1,#listChat)]
+        bot:say(chatBot)
+        sleep(1000)
+        chatBot = emoteChat[math.random(1,#emoteChat)]
+        bot:say(chatBot)
+        sleep(1000)
+    end
+    if changeColorSkin then
+        bot:setSkin(math.random(1,8))
+        sleep(100)
+    end
     if bot:getWorld().name == storagePack:upper() then
         print(bot.name:upper().." dropping pack at "..bot:getWorld().name:upper())
         sleep(100)
@@ -1017,6 +1067,18 @@ function plant(world)
     sleep(100)
     callEvent(bot.name:upper().." | doing plant and harvest ")
     sleep(100)
+    if nei_autochat_setting then
+        chatBot = listChat[math.random(1,#listChat)]
+        bot:say(chatBot)
+        sleep(1000)
+        chatBot = emoteChat[math.random(1,#emoteChat)]
+        bot:say(chatBot)
+        sleep(1000)
+    end
+    if changeColorSkin then
+        bot:setSkin(math.random(3,6))
+        sleep(100)
+    end
     for _,tile in pairs(bot:getWorld():getTiles()) do
         if getTile(tile.x,tile.y).fg == 0 and isPlantable(getTile(tile.x,tile.y)) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 and bot:getInventory():findItem(itmSeed) > 0 and bot:getWorld().name == world:upper() then
             bot:findPath(tile.x,tile.y)
@@ -1036,6 +1098,14 @@ function nei_pickexe_settingaxe()
     sleep(100)
     warp(worldPickaxe,nei_door_pickexe)
     sleep(100)
+    if nei_autochat_setting then
+        chatBot = listChat[math.random(1,#listChat)]
+        bot:say(chatBot)
+        sleep(1000)
+        chatBot = emoteChat[math.random(1,#emoteChat)]
+        bot:say(chatBot)
+        sleep(1000)
+    end
     print(bot.name:upper().." taking a pickaxe ")
     sleep(100)
     callEvent(bot.name:upper().." | taking a pickaxe ")
@@ -1108,6 +1178,18 @@ end
 function take(world)
     warp(storageSeed,nei_door_seed)
     sleep(100)
+    if nei_autochat_setting then
+        chatBot = listChat[math.random(1,#listChat)]
+        bot:say(chatBot)
+        sleep(1000)
+        chatBot = emoteChat[math.random(1,#emoteChat)]
+        bot:say(chatBot)
+        sleep(1000)
+    end
+    if changeColorSkin then
+        bot:setSkin(math.random(1,8))
+        sleep(100)
+    end
     while bot:getInventory():findItem(itmSeed) == 0 do
         for _,obj in pairs(bot:getWorld():getObjects()) do
             if obj.id == itmSeed then
@@ -1140,6 +1222,18 @@ function harvest(world)
     tree[world] = 0
     if ignoreGemsHarvest then
         bot.ignore_gems = true
+    end
+    if nei_autochat_setting then
+        chatBot = listChat[math.random(1,#listChat)]
+        bot:say(chatBot)
+        sleep(1000)
+        chatBot = emoteChat[math.random(1,#emoteChat)]
+        bot:say(chatBot)
+        sleep(1000)
+    end
+    if changeColorSkin then
+        bot:setSkin(math.random(2,7))
+        sleep(100)
     end
     if bot.level < nei_lvling_amount and nei_lvling_setting then
         for _,tile in pairs(bot:getWorld():getTiles()) do
@@ -1335,10 +1429,6 @@ end
 
 function join()
     for _,wurld in pairs(worldToJoin) do
-        print(bot.name:upper().." go to "..bot:getWorld().name:upper().." to refresh history ")
-        sleep(100)
-        callEvent(bot.name:upper().." | go to ||"..bot:getWorld().name:upper().."|| to refresh history ")
-        sleep(100)
         while bot:getWorld().name:upper() ~= wurld:upper() do
             if bot.status == BotStatus.online and bot:getPing() == 0 then
                 bot:disconnect()
@@ -1351,6 +1441,10 @@ function join()
                 end
             end
             bot:sendPacket(3,"action|join_request\nname|"..wurld:upper().."\ninvitedWorld|0")
+            print(bot.name:upper().." go to "..bot:getWorld().name:upper().." to refresh history ")
+            sleep(100)
+            callEvent(bot.name:upper().." | go to ||"..bot:getWorld().name:upper().."|| to refresh history ")
+            sleep(100)
             sleep(nei_delay_warp)
         end
     end
@@ -1359,6 +1453,7 @@ end
 function checkFire(world)
     totalTree = 0
     readyTree = 0
+    unreadyTree = 0
     fossil = 0
     toxicwst = false
     for _,tile in pairs(bot:getWorld():getTiles()) do
@@ -1366,11 +1461,18 @@ function checkFire(world)
             fired = true
         end
         if tile.fg == itmSeed then
-            totalTree = totalTree + 1
+            totalTree = readyTree + unreadyTree
             if tile:canHarvest() then
                 readyTree = readyTree + 1
             end
         end
+        if tile.fg == itmSeed then
+            totalTree = readyTree + unreadyTree
+            if not tile:canHarvest() then
+                unreadyTree = unreadyTree + 1
+            end
+        end
+
         if tile.fg == 3918 then
             fossil = fossil + 1
         end
@@ -1438,9 +1540,9 @@ if response and message then
                 callEvent("Neikoe script started!")
                 sleep(1000)
                 while bot.status == BotStatus.account_banned do
-                    print(bot.name:upper().." has been banned!")
+                    print(bot.name:upper().." has been banned! ")
                     sleep(100)
-                    callEvent(bot.name:upper().." | has been banned!")
+                    pingnei(bot.name:upper().." | has been banned! ")
                     sleep(100)
                     bot:stopScript()
                 end
@@ -1448,6 +1550,7 @@ if response and message then
 
             for i = indexBot, 1, -1 do
                     sleep(delayExecute)
+                    goExit()
             end
 
             while bot.status ~= BotStatus.online do
@@ -1566,9 +1669,11 @@ if response and message then
                 end
             end
     else
+        messageBox = MessageBox.new()
+        messageBox.title = "Neikoe Script"
+        messageBox.description = "Lisence not identified!\nPlease check your lisence\n\nScript by https://discord.gg/neikoe"
+        messageBox:send()
         print("Lisence not identified!")
-        sleep(100)
-        callEvent("Lisence not identified!")
         sleep(100)
     end
 end
