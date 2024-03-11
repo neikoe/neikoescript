@@ -334,7 +334,6 @@ function botEvents(info) -- ini yang aseli njir
             nei_wh.embed1.description = nei_description
             nei_wh.embed1.color = nei_color
 
-            nei_wh.embed1:addField("","",false)
 
             if total_bot > 24 then total_bot = 24 end 
             for j = 1,total_bot do
@@ -390,7 +389,6 @@ function callWebhook()
         botStatus = GetBot(bot.status).." <:dotrnei:1214766079210033173>"
     end
 
-    mainWebhook.embed1:addField("","",false)
     mainWebhook.embed1:addField( "<:botnei_2:1205836936296665108> ".. bot.name:upper() .." (".. bot.level ..")", "Bot Status: ".. botStatus .."\nBot Number: ".. indexBot .."\nCurrent World: ||".. bot:getWorld().name .."||", false)
     mainWebhook.embed1:addField("<:sspnei:1205840397130137610> Storage List","Pack Name: ".. nei_store_itemname .."\nPack Profit: ".. profit .."\nSeed Profit: ".. profitSeed, false)
     mainWebhook.embed1:addField("<:dirttreenei:1205844729997037659> Farm Detect","Total Tree: ".. totalTree .."\nReady Tree: ".. readyTree .."\nUnready Tree: ".. unreadyTree .. "\nFossil Rock Found: ".. fossil, false)
