@@ -4,6 +4,7 @@ bot.legit_mode = true       -- bot animation (default:true)
 bot.move_interval = 200     -- min 75, max 1000 (default:150)
 bot.move_range = nei_botmove_speed
 
+editMessage = true
 autoDetect = true          -- auto detect farmable
 itmSeed = nei_itemid_block + 1         -- don't edit
 root = false                -- set true if root farming 
@@ -69,6 +70,8 @@ waktu = {}
 tree = {}
 fossilz = {}
 nei_farmlistBot = {}
+fileneikoescript = {}
+fileneikoescript[indexBot] = {}
 fired = false
 nuked = false
 startTime = os.time()
@@ -213,6 +216,7 @@ function waktuWorld()
     return strWaktu
 end
 
+
 function round(n)
     return n % 1 > 0.5 and math.ceil(n) or math.floor(n)
 end
@@ -268,7 +272,7 @@ function callEvent(msg)
     wh.username = "NEIKOE SCRIPT - WEBHOOK"
     wh.avatar_url = "https://media.discordapp.net/attachments/1205088853099028480/1215642885509357628/Picsart_24-03-08_19-50-17-259.jpg?ex=65fd7ea9&is=65eb09a9&hm=b262445cadf62cca361596edead1621771e140a05e09d2d4e4979e09ee298f6d&=&format=webp&width=570&height=570"
     wh.embed1.use = true
-    wh.embed1.color = 16756592 
+    wh.embed1.color = 15548997 
     wh.embed1.description = "".. msg
     wh:send()
 end
@@ -279,7 +283,7 @@ function pingnei(msg)
     wh.avatar_url = "https://media.discordapp.net/attachments/1205088853099028480/1215642885509357628/Picsart_24-03-08_19-50-17-259.jpg?ex=65fd7ea9&is=65eb09a9&hm=b262445cadf62cca361596edead1621771e140a05e09d2d4e4979e09ee298f6d&=&format=webp&width=570&height=570"
     wh.content = "@everyone"
     wh.embed1.use = true
-    wh.embed1.color = 16756592 
+    wh.embed1.color = 15548997 
     wh.embed1.description = "".. msg
     wh:send()
 end
@@ -314,18 +318,12 @@ function botEvents(info) -- ini yang aseli njir
             local nei_wh = Webhook.new(entry.url)
             local nei_username = "NEIKOE SCRIPT - WEBHOOK"
             local nei_avatar_url = "https://media.discordapp.net/attachments/1205088853099028480/1215642885509357628/Picsart_24-03-08_19-50-17-259.jpg?ex=65fd7ea9&is=65eb09a9&hm=b262445cadf62cca361596edead1621771e140a05e09d2d4e4979e09ee298f6d&=&format=webp&width=570&height=570"
-            local total_bot = #entry.bot 
-            local nei_title = "Neikoe | Rotation Method Version"
+            local total_bot = #entry.bot
+            local nei_title = "BOT STATUS"
             local nei_thumbnail = "https://media.discordapp.net/attachments/1205088853099028480/1209099876642721813/Picsart_24-02-14_15-40-23-071.png?ex=65f82602&is=65e5b102&hm=8f2da9f341a0fb2831f2670c1e89fad2a7fa46830813262f2cfd30f981f9f88b&=&format=webp&quality=lossless&width=616&height=616"
-            local nei_color = "16756592"
-            local nei_date = "Script Runtime " .. getUptime() .."\n" .. os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)
-            local nei_description = "Updated: <t:" .. os.time() .. ":R>\n\n" ..
-                "**|** Current World: ||" .. world .. "||\n" ..
-                "**|** Total Tree: " .. totalTree .. "\n" .. 
-                "**|** Ready Tree: " .. readyTree .. "\n" .. 
-                "**|** Unready Tree: " .. readyTree .. "\n" .. 
-                "**|** Harvested Tree: " .. tree[world] .. "\n" .. 
-                "**|** Fossil Rock Found: " .. fossil .. "\n\n"
+            local nei_color = "16776960"
+            local nei_date = "Neikoe Script | Rotation Method Version \n" .. os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)
+            local nei_description = "Updated <t:" .. os.time() .. ":R>"
 
             nei_wh.embed1.use = true
             nei_wh.username = nei_username
@@ -336,16 +334,17 @@ function botEvents(info) -- ini yang aseli njir
             nei_wh.embed1.description = nei_description
             nei_wh.embed1.color = nei_color
 
+
             if total_bot > 24 then total_bot = 24 end 
             for j = 1,total_bot do
                 local status_bot = ':question:'
                 if GetBot(getBots()[j].name):lower() == 'online' then status_bot = "<:dotgreennei:1206515388733718548>" else status_bot = "<:dotrnei:1214766079210033173>" end 
-                local status_all = "Status: " .. GetBot(getBots()[j].name) .. "" .. status_bot .. "\n" .. 
-                    "Number: " .. j .. "\n" .. 
-                    "Gems: " .. getBots()[j].gem_count .. "\n" .. 
+                local status_all = "Bot Status: " .. GetBot(getBots()[j].name) .. "" .. status_bot .. "\n" .. 
+                    "Bot Level: " .. getBots()[j].level .. "\n" .. 
+                    "Bot Gems: " .. getBots()[j].gem_count .. "\n" .. 
                     "World: ||" .. getBots()[j]:getWorld().name:upper() .. "|| [" .. getBots()[j].x .. "," .. getBots()[j].y .. "]"
                 nei_wh.embed1:addField(
-                    "<:botnei_2:1205836936296665108> " .. entry.bot[j] .. " [" .. getBots()[j].level .."] ",status_all,false)
+                    "[" .. j .. "] " .. entry.bot[j] .. "",status_all,false)
             end
 
             if #entry.bot > 24 then
@@ -355,10 +354,10 @@ function botEvents(info) -- ini yang aseli njir
                 for j = 24,#entry.bot do
                     local status_bot = ':question:'
                     if GetBot(getBots()[j].name):lower() == 'online' then status_bot = "<:dotgreennei:1206515388733718548>" else status_bot = "<:dotrnei:1214766079210033173>" end 
-                    local status_all = "Bot Status: " .. GetBot(getBots()[j].name) .. " [" .. getBots()[j]:getPing() .. "]\n" .. 
-                        "Bot Gems: " .. getBots()[j].gem_count .. "\n" .. 
-                        "Bot Level: " .. getBots()[j].level .. "\n" .. 
-                        "World: ||" .. getBots()[j]:getWorld().name:upper() .. "|| [" .. getBots()[j].x .. "," .. getBots()[j].y .. "]"
+                    local status_all = "Bot Status: " .. GetBot(getBots()[j].name) .. "" .. status_bot .. "\n" .. 
+                    "Bot Level: " .. getBots()[j].level .. "\n" .. 
+                    "Bot Gems: " .. getBots()[j].gem_count .. "\n" .. 
+                    "World: ||" .. getBots()[j]:getWorld().name:upper() .. "|| [" .. getBots()[j].x .. "," .. getBots()[j].y .. "]"
                     nei_wh.embed2:addField(
                         "[" .. j .. "] " .. entry.bot[j] .. "" .. status_bot,status_all,false)
                 end
@@ -370,6 +369,36 @@ function botEvents(info) -- ini yang aseli njir
             end
             sleep(50)
         end
+    end
+end
+
+function callWebhook()
+    local mainWebhook = Webhook.new(nei_webhook_main_link)
+    mainWebhook.embed1.use = true
+    mainWebhook.username = "NEIKOE SCRIPT - WEBHOOK"
+    mainWebhook.avatar_url = "https://media.discordapp.net/attachments/1205088853099028480/1215642885509357628/Picsart_24-03-08_19-50-17-259.jpg?ex=65fd7ea9&is=65eb09a9&hm=b262445cadf62cca361596edead1621771e140a05e09d2d4e4979e09ee298f6d&=&format=webp&width=570&height=570"
+    mainWebhook.embed1.title = "BOT DETAILS"
+    mainWebhook.embed1.thumbnail = "https://media.discordapp.net/attachments/1205088853099028480/1209099876642721813/Picsart_24-02-14_15-40-23-071.png?ex=65f82602&is=65e5b102&hm=8f2da9f341a0fb2831f2670c1e89fad2a7fa46830813262f2cfd30f981f9f88b&=&format=webp&quality=lossless&width=616&height=616"
+    mainWebhook.embed1.color = 16776960
+    mainWebhook.embed1.description = "Updated <t:".. os.time() ..":R>"
+    
+    botStatus = ""
+    if GetBot(bot.status) == "Online" then
+        botStatus = GetBot(bot.status).." <:dotgreennei:1206515388733718548>"
+    else
+        botStatus = GetBot(bot.status).." <:dotrnei:1214766079210033173>"
+    end
+
+    mainWebhook.embed1:addField( "<:botnei_2:1205836936296665108> ".. bot.name:upper() .." (".. bot.level ..")", "Bot Status: ".. botStatus .."\nBot Number: ".. indexBot .."\nCurrent World: ||".. bot:getWorld().name .."||", false)
+    mainWebhook.embed1:addField("<:sspnei:1205840397130137610> Storage List","Pack Name: ".. nei_store_itemname .."\nPack Profit: ".. profit .."\nSeed Profit: ".. profitSeed, false)
+    mainWebhook.embed1:addField("<:dirttreenei:1205844729997037659> Farm Detect","Total Tree: ".. totalTree .."\nReady Tree: ".. readyTree .."\nUnready Tree: ".. unreadyTree .. "\nFossil Rock Found: ".. fossil, false)
+    mainWebhook.embed1:addField("<:lucifernei:1205836619815583764> Script Access","Username: ".. nei_license, false)
+    mainWebhook.embed1:addField("<:megaphonenei:1205840144825982986> Script Runtime", getUptime(),false)
+    mainWebhook.embed1.footer.text = "Neikoe Script | Rotation Method Version \n" .. os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)
+    if editMessage then
+        mainWebhook:edit(nei_webhook_pack_id)
+    else
+        mainWebhook:send()
     end
 end
 
@@ -579,7 +608,13 @@ function reconnect(world,id,x,y)
             end
         end
     end
+
     if bot.status ~= BotStatus.online or bot:getPing() == 0 then
+        print(bot.name:upper().." cooldown 1mins for re-login ")
+        sleep(100)
+        callEvent(bot.name:upper().." | cooldown 1mins for re-login ")
+        sleep(100)
+        sleep(60000)
         print(bot.name:upper().." reconnecting ")
         sleep(100)
         callEvent(bot.name:upper().." | reconnecting ")
@@ -716,8 +751,6 @@ function storeSeed(world)
     ba = ba - bot:getInventory():findItem(itmSeed)
     profitSeed = profitSeed + ba
     sleep(100)
-    packInfo(nei_webhook_main_link,nei_webhook_pack_id,infoPack())
-    sleep(100)
     if nei_safety_world then
         join()
     end
@@ -819,6 +852,8 @@ function pnbOtherWorld()
     sleep(100)
     botEvents(nei_webhook_main_link,nei_webhook_bots_id)
     sleep(100)
+    callWebhook()
+    sleep(100)
     bot.ignore_gems = false
     if not nuked and bot:isInWorld(worldBreak:upper()) then
         if bot:getInventory():findItem(nei_itemid_block) >= nei_breakrow and bot:getWorld().name == worldBreak:upper() then
@@ -901,6 +936,8 @@ function pnb(world)
             callEvent(bot.name:upper().." | doing pnb at world farm")
             sleep(100)
             botEvents(nei_webhook_main_link,nei_webhook_bots_id)
+            sleep(100)
+            callWebhook()
             sleep(100)
             bot.ignore_gems = false
             bot.auto_collect = true
@@ -1040,8 +1077,6 @@ function buyPack(world)
             end
         end
     end
-    sleep(100)
-    packInfo(nei_webhook_main_link,nei_webhook_pack_id,infoPack())
     sleep(100)
     if nei_safety_world then
         join()
@@ -1206,8 +1241,6 @@ function take(world)
         sleep(100)
         callEvent(bot.name:upper().." | go to ||"..bot:getWorld().name:upper().."|| for take seed ")
         sleep(100)
-        packInfo(nei_webhook_main_link,nei_webhook_pack_id,infoPack())
-        sleep(100)
     end
     warp(world,doorFarm)
     sleep(100)
@@ -1217,6 +1250,8 @@ function harvest(world)
     print(bot.name:upper().." do harvesting at "..bot:getWorld().name:upper())
     sleep(100)
     callEvent(bot.name:upper().." | do harvesting at ||"..bot:getWorld().name:upper().."||")
+    sleep(100)
+    callWebhook()
     sleep(100)
     tiley = 0
     tree[world] = 0
@@ -1241,10 +1276,14 @@ function harvest(world)
             if tile:canHarvest() and bot:isInWorld(world:upper()) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 and bot.level < nei_lvling_amount and getBot().status == BotStatus.online then
                 botEvents(nei_webhook_main_link,nei_webhook_bots_id)
                 sleep(100)
+                callWebhook()
+                sleep(100)
                 bot:findPath(tile.x,tile.y)
                 if tiley ~= tile.y and indexBot then
                     tiley = tile.y
                     botEvents(nei_webhook_main_link,nei_webhook_bots_id)
+                    sleep(100)
+                    callWebhook()
                     sleep(100)
                 end
                 for _, i in pairs(mode3Tile) do
@@ -1280,6 +1319,8 @@ function harvest(world)
                 if tile:canHarvest() and bot:isInWorld(world:upper()) and bot:getWorld():hasAccess(tile.x,tile.y) > 0 then
                     botEvents(nei_webhook_main_link,nei_webhook_bots_id)
                     sleep(100)
+                    callWebhook()
+                    sleep(100)
                     bot:findPath(tile.x,tile.y)
                     if tiley ~= tile.y and indexBot then
                         tiley = tile.y
@@ -1288,6 +1329,8 @@ function harvest(world)
                         callEvent(bot.name:upper().." | will save seed, and not planting.")
                         sleep(100)
                         botEvents(nei_webhook_main_link,nei_webhook_bots_id)
+                        sleep(100)
+                        callWebhook()
                         sleep(100)
                     end
                     for _, i in pairs(mode3Tile) do
@@ -1328,6 +1371,8 @@ function harvest(world)
                     if tiley ~= tile.y and indexBot then
                         tiley = tile.y
                         botEvents(nei_webhook_main_link,nei_webhook_bots_id)
+                        sleep(100)
+                        callWebhook()
                         sleep(100)
                     end
                     for _, i in pairs(mode3Tile) do
@@ -1371,9 +1416,9 @@ function harvest(world)
         if detectFloat then
             for _,obj in pairs(bot:getWorld():getObjects()) do
                 if obj.id == nei_itemid_block then
-                    print(bot.name:upper().." detect float at "..bot:getWorld().name:upper())
+                    print(bot.name:upper().." detect float block at farm")
                     sleep(100)
-                    callEvent(bot.name:upper().." | detect float at ||"..bot:getWorld().name:upper().."||")
+                    callEvent(bot.name:upper().." | detect float block at farm")
                     sleep(100)
                     bot:findPath(round(obj.x / 32),math.floor(obj.y / 32))
                     sleep(100)
@@ -1533,7 +1578,7 @@ if response and message then
     print("Message: " .. message)
     callEvent("Neikoe script started!")
 
-    if response == "success" then
+    if response == "Access approved" then
             while bot.status ~= BotStatus.online do
                 print("Neikoe script started!")
                 sleep(100)
@@ -1671,9 +1716,9 @@ if response and message then
     else
         messageBox = MessageBox.new()
         messageBox.title = "Neikoe Script"
-        messageBox.description = "Lisence not identified!\nPlease check your lisence\n\nScript by https://discord.gg/neikoe"
+        messageBox.description = "Lucifer username is not identified!\nPlease check the registered username\n\nScript by https://discord.gg/neikoe"
         messageBox:send()
-        print("Lisence not identified!")
+        print("Lucifer username is not identified!")
         sleep(100)
     end
 end
