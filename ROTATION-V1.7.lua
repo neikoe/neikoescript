@@ -1577,7 +1577,7 @@ if response and message then
     print("Message: " .. message)
     callEvent("Neikoe script started!")
 
-    if response == "success" then
+    if response == "Access approved" then
             while bot.status ~= BotStatus.online do
                 print("Neikoe script started!")
                 sleep(100)
@@ -1715,9 +1715,9 @@ if response and message then
     else
         messageBox = MessageBox.new()
         messageBox.title = "Neikoe Script"
-        messageBox.description = "Lisence not identified!\nPlease check your lisence\n\nScript by https://discord.gg/neikoe"
+        messageBox.description = "Lucifer username is not identified!\nPlease check the registered username\n\nScript by https://discord.gg/neikoe"
         messageBox:send()
-        print("Lisence not identified!")
+        print("Lucifer username is not identified!")
         sleep(100)
     end
 end
