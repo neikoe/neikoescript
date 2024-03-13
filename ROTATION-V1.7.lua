@@ -389,6 +389,7 @@ function callWebhook()
         botStatus = GetBot(bot.status).." <:dotrnei:1214766079210033173>"
     end
 
+    mainWebhook.embed1:addField("<:lucifernei:1205836619815583764> Script Access","Username: ".. nei_license, false)
     mainWebhook.embed1:addField( "<:botnei_2:1205836936296665108> ".. bot.name:upper() .." (".. bot.level ..")", "Bot Status: ".. botStatus .."\nBot Number: ".. indexBot .."\nCurrent World: ||".. bot:getWorld().name .."||", false)
     mainWebhook.embed1:addField("<:sspnei:1205840397130137610> Storage List","Pack Name: ".. nei_store_itemname .."\nPack Profit: ".. profit .."\nSeed Profit: ".. profitSeed, false)
     mainWebhook.embed1:addField("<:dirttreenei:1205844729997037659> Farm Detect","Total Tree: ".. totalTree .."\nReady Tree: ".. readyTree .."\nUnready Tree: ".. unreadyTree .. "\nFossil Rock Found: ".. fossil, false)
