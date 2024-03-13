@@ -1574,8 +1574,8 @@ local message = jsonString:match(messagePattern)
 
 if response and message then
     -- Print values
-    print("" .. response)
-    print("" .. message)
+    print("Status: " .. response)
+    print("Message: " .. message)
     callEvent("Neikoe script started!")
 
     if response == "Access approved" then
