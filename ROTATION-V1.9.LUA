@@ -1717,7 +1717,7 @@ if response and message then
         messageBox.title = "Neikoe Script"
         messageBox.description = "Lucifer username is not identified!\nPlease check the registered username\n\nScript by https://discord.gg/neikoe"
         messageBox:send()
-        print("Lucifer username is not identified!")
+        print("Login is not identified!")
         sleep(100)
     end
 end
