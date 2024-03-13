@@ -1577,7 +1577,7 @@ if response and message then
     print("Message: " .. message)
     callEvent("Neikoe script started!")
 
-    if response == "Access approved" then
+    if response == "Access approved! Please Wait." then
             while bot.status ~= BotStatus.online do
                 print("Neikoe script started!")
                 sleep(100)
