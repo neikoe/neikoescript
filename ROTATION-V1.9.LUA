@@ -573,10 +573,11 @@ end
 function reconnect(world,id,x,y)
     nuked = false
     if bot.level >= StopScriptAtLvl_nei then
-        print(bot.name:upper().." reach level u set and script stopped! ")
+        print(bot.name:upper().." reach level u set and script stopped and go offline! ")
         sleep(100)
-        pingnei(bot.name:upper().." | reach level u set and script stopped! ")
+        pingnei(bot.name:upper().." | reach level u set and script stopped and go offline! ")
         sleep(100)
+        bot:disconnect()
         bot:stopScript()
     end
     if RestBot_nei then
