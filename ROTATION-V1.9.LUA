@@ -321,7 +321,7 @@ function botEvents(info) -- ini yang aseli njir
             local nei_title = "BOT STATUS"
             local nei_thumbnail = "https://media.discordapp.net/attachments/1205088853099028480/1209099876642721813/Picsart_24-02-14_15-40-23-071.png?ex=65f82602&is=65e5b102&hm=8f2da9f341a0fb2831f2670c1e89fad2a7fa46830813262f2cfd30f981f9f88b&=&format=webp&quality=lossless&width=616&height=616"
             local nei_color = "16776960"
-            local nei_date = "Neikoe Script | Rotation V1.9 \n" .. os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)
+            local nei_date = "Neikoe Script | Rotation V1.9.1 \n" .. os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)
             local nei_description = "Updated <t:" .. os.time() .. ":R>"
 
             nei_wh.embed1.use = true
@@ -393,7 +393,7 @@ function callWebhook()
     mainWebhook.embed1:addField("<:dirttreenei:1205844729997037659> Farm Detect","Total Tree: ".. totalTree .."\nReady Tree: ".. readyTree .."\nUnready Tree: ".. unreadyTree .. "\nFossil Rock Found: ".. fossil, false)
     mainWebhook.embed1:addField("<:lucifernei:1205836619815583764> Script Access","Username: ".. Login_nei, false)
     mainWebhook.embed1:addField("<:megaphonenei:1205840144825982986> Script Runtime", getUptime(),false)
-    mainWebhook.embed1.footer.text = "Neikoe Script | Rotation V1.9 \n" .. os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)
+    mainWebhook.embed1.footer.text = "Neikoe Script | Rotation V1.9.1 \n" .. os.date("!%b-%d-%Y, %I:%M %p", os.time() + 7 * 60 * 60)
     if editMessage then
         mainWebhook:edit(WebhookMainMSGId1_nei)
     else
@@ -552,7 +552,7 @@ function packInfo(link,id,desc)
             }
         )
         $embedObject = @{
-            title = "Pack Info | Rotation V1.9"
+            title = "Pack Info | Rotation V1.9.1"
             color = "16756592"
             footer = $footerObject
             thumbnail = $thumbnailObject
