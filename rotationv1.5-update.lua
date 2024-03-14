@@ -1,3 +1,5 @@
+---
+
 bot = getBot()
 bot.legit_mode = true       -- bot animation (default:true)
 bot.move_interval = 200     -- min 75, max 1000 (default:150)
@@ -1394,7 +1396,7 @@ if response and message then
     print("Status: " .. response)
     print("Message: " .. message)
 
-    if response == "success" then
+    if response == "Access approved! Please Wait." then
             while bot.status ~= BotStatus.online do
                 sleep(1000)
                 while bot.status == BotStatus.account_banned do
@@ -1516,6 +1518,6 @@ if response and message then
                 end
             end
     else
-        print("ERROR REGISTER")
+        print("Login is not identified!")
     end
 end
