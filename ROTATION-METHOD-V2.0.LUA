@@ -1,5 +1,5 @@
 -- HIDDEN CONFIG
-ModeFastMove_nei = true  -- bot will do 5 movementspeed [default:false]
+ModeFastMove_nei = false  -- bot will do 5 movementspeed [default:false]
 leveling = false -- Bot will do factory first until X level
 untilLevel = 16
 levelingItemIdRotation_nei = 54
@@ -1769,7 +1769,7 @@ function rotasiMain()
         print(bot.name:upper().." | go to ".. farmWorld)
         callWebhook()
         sleep(100)
-        callEvent("go To ".. farmWorld)
+        callEvent("go to ".. farmWorld)
 
         checkTutorial()
         for i = 1,3 do
