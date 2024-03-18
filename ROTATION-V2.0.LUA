@@ -1769,7 +1769,7 @@ function rotasiMain()
         print(bot.name:upper().." | go to ".. farmWorld)
         callWebhook()
         sleep(100)
-        callEvent("go To ".. farmWorld)
+        callEvent("go to ".. farmWorld)
 
         checkTutorial()
         for i = 1,3 do
