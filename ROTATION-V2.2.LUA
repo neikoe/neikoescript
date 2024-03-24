@@ -72,6 +72,7 @@ worldList = {}
 seedID = ItemIdRotation_nei+1
 otherWorldNuked = false
 ownWorldNuked = false
+createpnbWorldNuked = false
 RestBotInterval_nei = RestBotInterval_nei*60
 sleep(DelayExecute_nei*(indexBot-1))
 
@@ -1462,7 +1463,9 @@ function pnbOwnWorld(seedz)
     elseif worldNuked then
         fileName = "NEI_PNB_"..bot.name:upper()..".txt"
         deleteFile(fileName)
-        ownWorldNuked = true
+        sleep(100)
+        createPnb()
+        createpnbWorldNuked = true
     end
 end
 
@@ -1963,7 +1966,7 @@ function rotasiMain()
                             warps(farmWorld, farmDoorID)
                         end
 
-                        if tutorNuked or otherWorldNuked then
+                        if tutorNuked or otherWorldNuked or createpnbWorldNuked then
                             if ownWorldNuked then
                                 createPnb()
                                 sleep(100)
