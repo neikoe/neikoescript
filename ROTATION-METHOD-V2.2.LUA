@@ -1310,19 +1310,19 @@ function createPnb()
         warps(newPnbWorld,"")
         if not worldNuked then
             newPnbNuked = false
-            print(bot.name:upper().." | PNB World : "..newPnbWorld)
-            callEvent("Created PNB World : "..newPnbWorld)
+            print(bot.name:upper().." | pnb world : "..newPnbWorld)
+            callEvent("create pnb world: "..newPnbWorld)
         else
             newPnbNuked = true
         end
     end
 
     if newPnbNuked or newPnbWorld == "" then
-        callEvent("Creating PNB World")
+        callEvent("create pnb world!")
         newPnbWorld = ""
         while newPnbWorld == "" do
             newWorld = generateRandomChar(12)
-            print(bot.name:upper().." | Generated World Name: "..newWorld)
+            print(bot.name:upper().." | generated world: "..newWorld)
             sleep(100)
             warps(newWorld, "")
             if not worldNuked then
@@ -1338,7 +1338,7 @@ function createPnb()
                     if not isLocked then
                         newPnbWorld = newWorld:upper()
                         print(bot.name:upper().." | PNB World : "..newPnbWorld)
-                        callEvent("Created PNB World : "..newPnbWorld)
+                        callEvent("create pnb world: "..newPnbWorld)
 
                         if bot.gem_count > 2000 and findItem(242) == 0 then
                             bot:buy("world_lock")
