@@ -1528,57 +1528,6 @@ function checkFire(world)
     fossilz[world] = fossil
 end
 
---// LISENCE CONF
-function getMachineGUID()
-    local cmd = io.popen(
-        'powershell -command "$MachineGUID = (Get-ItemProperty -Path \"HKLM:\\SOFTWARE\\Microsoft\\Cryptography\").MachineGuid; $MachineGUID"')
-    local machineGUID = cmd:read("*l")
-    cmd:close()
-    return machineGUID
-end
-
-
-function getMachineGUID()
-    local cmd = io.popen('powershell -command "$MachineGUID = (Get-ItemProperty -Path \"HKLM:\\SOFTWARE\\Microsoft\\Cryptography\").MachineGuid; $MachineGUID"')
-    local machineGUID = cmd:read("*l")
-    cmd:close()
-    return machineGUID
-end
-
-function request(method, URL)
-    local client = HttpClient.new()
-    if method:upper() == "POST" then
-        client.method = Method.post
-    elseif method:upper() == "GET" then
-        client.method = Method.get
-    elseif method:upper() == "DELETE" then
-        client.method = Method.delete
-    elseif method:upper() == "PATCH" then
-        client.method = Method.patch
-    else
-        return "Unknown method used"
-    end
-
-    client.url = URL
-    response = client:request()
-    return response.body
-end
-
-local jsonString = request("POST","http://game2.jagoanvps.cloud:5038/gt/loginlua?username="..Login_nei.."&password=1009&mac="..getMachineGUID())
-
-local responsePattern = '"response":"(.-)"'
-local messagePattern = '"message":"(.-)"'
-
-local response = jsonString:match(responsePattern)
-local message = jsonString:match(messagePattern)
-
-if response and message then
-    -- Print values
-    print("Status: " .. response)
-    print("Message: " .. message)
-    callEvent("Neikoe script started!")
-
-    if response == "Access approved! Please Wait." then
             while bot.status ~= BotStatus.online do
                 print("Neikoe script started!")
                 sleep(100)
@@ -1713,12 +1662,3 @@ if response and message then
                     end
                 end
             end
-    else
-        messageBox = MessageBox.new()
-        messageBox.title = "Neikoe Script"
-        messageBox.description = "Login is not identified!\nPlease check the registered username\n\nScript by https://discord.gg/neikoe"
-        messageBox:send()
-        print("Login is not identified!")
-        sleep(100)
-    end
-end
